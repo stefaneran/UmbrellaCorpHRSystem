@@ -1,0 +1,17 @@
+﻿@using UmbrellaCorpHRSystem.Models.ViewModels.Email
+@model ICollection<EmailThreadMessageViewModel>
+
+@foreach(var emailMessage in Model)
+{
+    <div class="email-thread-message">
+        <div class="email-thread-message-header">
+            <p>From: @emailMessage.SenderEmail</p>
+            <p>To: @emailMessage.RecipientEmail</p>
+            <p>Subject: @emailMessage.Subject</p>
+        </div>
+        <div class="email-thread-message-body">
+            <p>@emailMessage.Body</p>
+        </div>
+    </div>
+}
+

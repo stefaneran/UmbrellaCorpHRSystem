@@ -1,0 +1,20 @@
+﻿@using UmbrellaCorpHRSystem.Models.ViewModels.Email
+@model EmailIndexViewModel;
+
+<div class="container d-flex">
+    <div class="container email-thread-list">
+        @foreach(var emailThreadListItem in Model.EmailThreadsList)
+        {
+            <a asp-action="Index" asp-route-id="@emailThreadListItem.Id" class="text-decoration-none">
+                <div class="email-list-item @(emailThreadListItem.Id == Model.SelectedThreadId ? "selected" : "")">
+                    <p class="email-list-item-from">@emailThreadListItem.SenderEmail</p>
+                    <p class="email-list-item-subject">@emailThreadListItem.Subject</p>
+                    <p class="email-list-item-sent">@emailThreadListItem.SentDate</p>
+                </div>
+            </a>
+        }
+    </div>
+    <div class="container email-thread">
+        <partial name="_EmailThread" model="Model.EmailThreadMessages"/>
+    </div>
+</div>

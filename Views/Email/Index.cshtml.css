@@ -1,0 +1,34 @@
+/* CSS for Index view */
+.email-thread-list {
+    flex-basis: 25%;
+    border: 1px solid black;
+
+    .email-list-item {
+        padding: 10px;
+        cursor: pointer;
+
+        &.selected, &:hover {
+            background: #e6837c;
+        }
+
+        .email-list-item-from {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .email-list-item-subject {
+            margin-bottom: 5px;
+        }
+
+        .email-list-item-sent {
+            text-align: right;
+            color: #BEBEBE;
+        }
+    }
+}
+
+.email-thread {
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}

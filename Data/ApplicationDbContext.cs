@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using UmbrellaCorpHRSystem.Data.Configurations;
+using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Models.Email;
 
 namespace UmbrellaCorpHRSystem.Data
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<HRSystemUser>(options)
     {
 
         public DbSet<EmailThread> EmailThreads { get; set; } = null!;

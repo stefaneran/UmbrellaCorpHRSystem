@@ -1,79 +1,65 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UmbrellaCorpHRSystem.Data;
+using UmbrellaCorpHRSystem.Models.Dto.Email;
 using UmbrellaCorpHRSystem.Models.ViewModels.Email;
+using UmbrellaCorpHRSystem.Services.Email;
 
 namespace UmbrellaCorpHRSystem.Controllers
 {
     public class EmailController : Controller
     {
-        protected readonly ApplicationDbContext _dbContext;
+        private readonly IEmailService _emailService;
 
-        public EmailController(ApplicationDbContext dbContext)
+        public EmailController(IEmailService emailService)
         {
-            _dbContext = dbContext;
+            _emailService = emailService;
         }
 
-        public IActionResult Index(int? Id)
+        public async Task<IActionResult> Index(
+            int? ThreadId, 
+            bool isWriting = false, 
+            string Show = "incoming"
+        )
         {
-            ICollection<EmailThreadMessageViewModel> EmailThreadMessages = new List<EmailThreadMessageViewModel>();
-            ICollection <EmailThreadListItemViewModel> EmailThreadList = _dbContext.EmailThreads
-                    .Where(g => g.RecipientEmail == "claireredfield@umbrellacorp.com")
-                    .Select(g => new EmailThreadListItemViewModel
-                    {
-                        Id = g.Id,
-                        SenderEmail = g.SenderEmail,
-                        Subject = g.EmailMessages
-                            .OrderByDescending(m => m.SentDate)
-                            .Select(m => m.Subject)
-                            .FirstOrDefault() ?? string.Empty,
-                        SentDate = g.EmailMessages.Max(m => m.SentDate)
-                    })
-                    .OrderByDescending(g => g.SentDate)
-                    .ToList();
-
-            if (Id != null)
-            {
-                EmailThreadMessages = _dbContext.EmailMessages
-                .Where(g => g.EmailThreadId == Id)
-                .Select(g => new EmailThreadMessageViewModel
-                {
-                    SenderEmail = g.SenderEmail,
-                    RecipientEmail = g.RecipientEmail,
-                    Subject = g.Subject,
-                    Body = g.Body,
-                    SentDate = g.SentDate
-                })
-                .OrderBy(g => g.SentDate)
-                .ToList();
-            }
+            ICollection<EmailThreadListItemViewModel> emailThreadList = await _emailService.GetEmailThreadListAsync(Show);
+            EmailThreadViewModel? emailThread = await _emailService.GetEmailThreadAsync(ThreadId);
 
             EmailIndexViewModel EmailIndexModel = new EmailIndexViewModel
             {
-                SelectedThreadId = Id ?? 0,
-                EmailThreadsList = EmailThreadList,
-                EmailThreadMessages = EmailThreadMessages,
+                Show = Show,
+                isWriting = isWriting,
+                EmailThreadsList = emailThreadList,
+                EmailThread = emailThread
             };
 
             return View(EmailIndexModel);
         }
 
-        [HttpGet]
-        public IActionResult OpenThread(int Id)
+        [HttpPost]
+        public async Task<IActionResult> SendEmail(SendEmailDto sendEmailDto)
         {
-            ICollection<EmailThreadMessageViewModel> EmailThreadMessages = _dbContext.EmailMessages
-                .Where(g => g.EmailThreadId == Id)
-                .Select(g => new EmailThreadMessageViewModel
-                {
-                    SenderEmail = g.SenderEmail,
-                    RecipientEmail = g.RecipientEmail,
-                    Subject = g.Subject,
-                    Body = g.Body,
-                    SentDate = g.SentDate
-                })
-                .OrderBy(g => g.SentDate)
-                .ToList();
-
-            return PartialView("_EmailThread", EmailThreadMessages);
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem();
+            }
+            var newEmailThreadId = await _emailService.SendEmailAsync(sendEmailDto);
+            return RedirectToAction(nameof(Index), new { ThreadId = newEmailThreadId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ReplyEmail(ReplyEmailDto replyEmailDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem();
+            }
+            bool success = await _emailService.ReplyEmailAsync(replyEmailDto);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index), new { replyEmailDto.ThreadId });
+        }
+
+
     }
 }

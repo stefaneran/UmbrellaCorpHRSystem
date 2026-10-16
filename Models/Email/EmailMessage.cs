@@ -20,11 +20,11 @@ namespace UmbrellaCorpHRSystem.Models.Email
         public string RecipientEmail { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(255)]
+        [MaxLength(128)]
         public string Subject { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(2056)]
+        [MaxLength(2048)]
         public string Body { get; set; } = string.Empty;
 
         public DateTime SentDate { get; set; } = DateTime.UtcNow;

@@ -234,8 +234,8 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
 
                     b.Property<string>("Body")
                         .IsRequired()
-                        .HasMaxLength(2056)
-                        .HasColumnType("nvarchar(2056)");
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
 
                     b.Property<int>("EmailThreadId")
                         .HasColumnType("int");
@@ -253,8 +253,8 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
 
                     b.Property<string>("Subject")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
 

@@ -1,0 +1,11 @@
+﻿@model int
+
+<form asp-controller="Email" asp-action="ReplyEmail" class="container">
+    <input type="hidden" name="ThreadId" value="@Model" />
+    <div class="row">
+        <label class="col">Subject:</label>
+        <input class="col" type="text" name="Subject" />
+    </div>
+    <textarea name="Body"></textarea>
+    <button type="submit">Send</button>
+</form>

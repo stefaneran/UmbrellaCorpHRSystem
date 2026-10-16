@@ -1,6 +1,6 @@
 ﻿namespace UmbrellaCorpHRSystem.Models.ViewModels.Email
 {
-    public class EmailThreadMessageViewModel
+    public class EmailMessageViewModel
     {
         public string SenderEmail { get; set; } = string.Empty;
         public string RecipientEmail { get; set; } = string.Empty;

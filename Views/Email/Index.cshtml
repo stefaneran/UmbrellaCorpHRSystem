@@ -1,12 +1,19 @@
 ﻿@using UmbrellaCorpHRSystem.Models.ViewModels.Email
-@model EmailIndexViewModel;
+@model EmailIndexViewModel
 
+<div class="container d-flex email-toolbar">
+    <a asp-action="Index" asp-route-isWriting="true" class="btn btn-primary">New Email</a>
+</div>
 <div class="container d-flex">
     <div class="container email-thread-list">
+        <div class="d-flex">
+            <a asp-action="Index" asp-route-show="incoming" class="btn btn-primary">Inbox</a>
+            <a asp-action="Index" asp-route-show="outgoing" class="btn btn-primary">Sent</a>
+        </div>
         @foreach(var emailThreadListItem in Model.EmailThreadsList)
         {
-            <a asp-action="Index" asp-route-id="@emailThreadListItem.Id" class="text-decoration-none">
-                <div class="email-list-item @(emailThreadListItem.Id == Model.SelectedThreadId ? "selected" : "")">
+            <a asp-action="Index" asp-route-threadId="@emailThreadListItem.Id" asp-route-show="@Model.Show" class="text-decoration-none">
+                <div class="email-list-item @(emailThreadListItem.Id == Model.EmailThread?.Id ? "selected" : "")">
                     <p class="email-list-item-from">@emailThreadListItem.SenderEmail</p>
                     <p class="email-list-item-subject">@emailThreadListItem.Subject</p>
                     <p class="email-list-item-sent">@emailThreadListItem.SentDate</p>
@@ -15,6 +22,17 @@
         }
     </div>
     <div class="container email-thread">
-        <partial name="_EmailThread" model="Model.EmailThreadMessages"/>
+        @if(Model.isWriting)
+        {
+            <partial name="_NewEmail" />
+        } 
+        else if (Model.EmailThread is not null)
+        {
+            <partial name="_EmailThread" model="Model.EmailThread"/>
+        }
+        else
+        {
+            <p>Select a thread to read it.</p>
+        }
     </div>
 </div>

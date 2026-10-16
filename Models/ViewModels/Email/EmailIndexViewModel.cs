@@ -2,8 +2,9 @@
 {
     public class EmailIndexViewModel
     {
-        public int SelectedThreadId { get; set; }
+        public string? Show { get; set; } = "incoming";
+        public bool isWriting { get; set; }
         public ICollection<EmailThreadListItemViewModel> EmailThreadsList { get; set; } = new HashSet<EmailThreadListItemViewModel>();
-        public ICollection<EmailThreadMessageViewModel> EmailThreadMessages { get; set; } = new HashSet<EmailThreadMessageViewModel>();
+        public EmailThreadViewModel? EmailThread { get; set; }
     }
 }

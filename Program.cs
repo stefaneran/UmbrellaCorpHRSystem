@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UmbrellaCorpHRSystem.Data;
+using UmbrellaCorpHRSystem.Data.Seed;
 using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Services.Email;
 
@@ -12,7 +13,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<HRSystemUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<HRSystemUser>(options => {
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireNonAlphanumeric = false;
+    })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
@@ -47,5 +52,8 @@ app.MapControllerRoute(
 
 app.MapRazorPages()
    .WithStaticAssets();
+
+// Seed roles and default user
+await IdentitySeed.SeedAsync(app.Services);
 
 app.Run();

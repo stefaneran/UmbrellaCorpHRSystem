@@ -20,6 +20,7 @@
                     <th>Infection Status</th>
                     <th>Life Status</th>
                 }
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -30,17 +31,20 @@
                     <td>@employee.Department</td>
                     @if (!User.IsInRole(Role.Admin))
                     {
-                        <th>@employee.AnnualLeaveLeft</th>
-                        <th>@employee.EmploymentType</th>
-                        <th>@employee.EmploymentStatus</th>
+                        <td>@employee.AnnualLeaveLeft</td>
+                        <td>@employee.EmploymentType</td>
+                        <td>@employee.EmploymentStatus</td>
                     }
                     @if (User.IsInRole(Role.Admin))
                     {
-                        <th>@employee.HeartRate</th>
-                        <th>@employee.CurrentLocation</th>
-                        <th>@employee.InfectionStatus</th>
-                        <th>@employee.LifeStatus</th>
+                        <td>@employee.HeartRate</td>
+                        <td>@employee.CurrentLocation</td>
+                        <td>@employee.InfectionStatus</td>
+                        <td>@employee.LifeStatus</td>
                     }
+                    <td>
+                        <a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Details</a>
+                    </td>
                 </tr>
             }
         </tbody>

@@ -4,6 +4,7 @@ namespace UmbrellaCorpHRSystem.Services.Employees
 {
     public interface IEmployeesService
     {
-        Task<ICollection<EmployeeTableRowViewModel>> GetEmployees();
+        Task<ICollection<EmployeeTableRowViewModel>> GetEmployeesAsync();
+        Task<EmployeeDetailsViewModel> GetEmployeeDetailsAsync(int Id);
     }
 }

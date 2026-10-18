@@ -16,7 +16,8 @@ namespace UmbrellaCorpHRSystem.Controllers
 
         public async Task<IActionResult> Index(
             int? ThreadId, 
-            bool isWriting = false, 
+            string? RecipientEmail,
+            bool IsWriting = false, 
             string Show = "incoming"
         )
         {
@@ -26,7 +27,8 @@ namespace UmbrellaCorpHRSystem.Controllers
             EmailIndexViewModel EmailIndexModel = new EmailIndexViewModel
             {
                 Show = Show,
-                isWriting = isWriting,
+                IsWriting = IsWriting,
+                RecipientEmail = RecipientEmail,
                 EmailThreadsList = emailThreadList,
                 EmailThread = emailThread
             };

@@ -15,8 +15,15 @@ namespace UmbrellaCorpHRSystem.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ICollection<EmployeeTableRowViewModel> employees = await _employeesService.GetEmployees();
+            ICollection<EmployeeTableRowViewModel> employees = await _employeesService.GetEmployeesAsync();
             return View(employees);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int Id)
+        {
+            EmployeeDetailsViewModel employee = await _employeesService.GetEmployeeDetailsAsync(Id);
+            return View(employee);
         }
     }
 }

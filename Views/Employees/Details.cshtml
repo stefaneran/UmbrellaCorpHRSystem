@@ -1,0 +1,17 @@
+﻿
+@model EmployeeDetailsViewModel
+
+<div>
+    <div class="container">
+        <label>Name</label>
+        <p>@Model.Name</p>
+    </div>
+    <div class="container">
+        <label>Email</label>
+        <a 
+            asp-controller="Email" 
+            asp-action="Index" 
+            asp-route-isWriting="true" 
+            asp-route-recipientEmail="@Model.Email">@Model.Email</a>
+    </div>
+</div>

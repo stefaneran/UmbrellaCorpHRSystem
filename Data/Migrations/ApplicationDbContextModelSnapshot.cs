@@ -17,7 +17,7 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.12")
+                .HasAnnotation("ProductVersion", "10.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -278,6 +278,119 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                             Id = 3,
                             RecipientEmail = "claireredfield@umbrellacorp.com",
                             SenderEmail = "automated@umbrellacorp.com"
+                        });
+                });
+
+            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Employee.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CurrentLocation")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<int>("Department")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<int>("EmploymentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmploymentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<int>("HeartRate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InfectionStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<int>("LifeStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Salary")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalAnnualLeave")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsedAnnualLeave")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CurrentLocation = "Executive Offices",
+                            Department = 1,
+                            Email = "albertwesker@umbrellacorp.com",
+                            EmploymentStatus = 1,
+                            EmploymentType = 1,
+                            FirstName = "Albert",
+                            HeartRate = 65,
+                            InfectionStatus = 1,
+                            LastName = "Wesker",
+                            LifeStatus = 1,
+                            Salary = 384000,
+                            TotalAnnualLeave = 32,
+                            UsedAnnualLeave = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CurrentLocation = "Executive Offices",
+                            Department = 1,
+                            Email = "jamesmarcus@umbrellacorp.com",
+                            EmploymentStatus = 1,
+                            EmploymentType = 1,
+                            FirstName = "James",
+                            HeartRate = 66,
+                            InfectionStatus = 1,
+                            LastName = "Marcus",
+                            LifeStatus = 1,
+                            Salary = 326000,
+                            TotalAnnualLeave = 30,
+                            UsedAnnualLeave = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CurrentLocation = "Administrative Office",
+                            Department = 8,
+                            Email = "claireredfield@umbrellacorp.com",
+                            EmploymentStatus = 1,
+                            EmploymentType = 1,
+                            FirstName = "Claire",
+                            HeartRate = 121,
+                            InfectionStatus = 2,
+                            LastName = "Redfield",
+                            LifeStatus = 1,
+                            Salary = 84000,
+                            TotalAnnualLeave = 22,
+                            UsedAnnualLeave = 0
                         });
                 });
 

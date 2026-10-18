@@ -4,6 +4,7 @@ using UmbrellaCorpHRSystem.Data;
 using UmbrellaCorpHRSystem.Data.Seed;
 using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Services.Email;
+using UmbrellaCorpHRSystem.Services.Employees;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddDefaultIdentity<HRSystemUser>(options => {
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IEmployeesService, EmployeesService>();
 
 var app = builder.Build();
 

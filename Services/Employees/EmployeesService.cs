@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UmbrellaCorpHRSystem.Data;
+using UmbrellaCorpHRSystem.Models.Dto.Employee;
+using UmbrellaCorpHRSystem.Models.Employee;
+using UmbrellaCorpHRSystem.Models.Enums;
 using UmbrellaCorpHRSystem.Models.ViewModels.Employees;
 
 namespace UmbrellaCorpHRSystem.Services.Employees
@@ -35,9 +38,9 @@ namespace UmbrellaCorpHRSystem.Services.Employees
             return employees;
         }
 
-        public async Task<EmployeeDetailsViewModel> GetEmployeeDetailsAsync(int Id)
+        public async Task<EmployeeDetailsViewModel?> GetEmployeeDetailsAsync(int Id)
         {
-            EmployeeDetailsViewModel employee = await _dbContext.Employees
+            EmployeeDetailsViewModel? employee = await _dbContext.Employees
                 .Where(g => g.Id == Id)
                 .Select(g => new EmployeeDetailsViewModel()
                 {
@@ -57,6 +60,30 @@ namespace UmbrellaCorpHRSystem.Services.Employees
                 .FirstOrDefaultAsync();
 
             return employee;
+        }
+
+        public async Task<int> CreateEmployeeAsync(CreateEditEmployeeDto createEditEmployeeDto)
+        {
+            Random rand = new Random();
+            Employee newEmployee = new Employee()
+            {
+                FirstName = createEditEmployeeDto.FirstName,
+                LastName = createEditEmployeeDto.LastName,
+                Email = $"{createEditEmployeeDto.FirstName}{createEditEmployeeDto.LastName}@umbrellacorp.com".ToLowerInvariant(),
+                Salary = createEditEmployeeDto.Salary,
+                Department = createEditEmployeeDto.Department,
+                EmploymentType = createEditEmployeeDto.EmploymentType,
+                EmploymentStatus = createEditEmployeeDto.EmploymentStatus,
+                TotalAnnualLeave = createEditEmployeeDto.TotalAnnualLeave,
+                UsedAnnualLeave = 0,
+                HeartRate = rand.Next(60, 80),
+                CurrentLocation = DepartmentExtension.GetDefaultLocation(createEditEmployeeDto.Department),
+                InfectionStatus = InfectionStatus.Uninfected,
+                LifeStatus = LifeStatus.Alive
+            };
+            _dbContext.Employees.Add(newEmployee);
+            await _dbContext.SaveChangesAsync();
+            return newEmployee.Id;
         }
     }
 }

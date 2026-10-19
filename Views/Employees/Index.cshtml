@@ -1,52 +1,62 @@
-﻿@model ICollection<EmployeeTableRowViewModel>
+﻿@model EmployeesIndexViewModel
 
 <div class="container">
-    <div class="employees-toolbar"></div>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Department</th>
-                @if (!User.IsInRole(Role.Admin))
-                {
-                    <th>Annual Leave Left</th>
-                    <th>Employment Type</th>
-                    <th>Employment Status</th>
-                }
-                @if (User.IsInRole(Role.Admin))
-                {
-                    <th>Heart Rate</th>
-                    <th>Current Location</th>
-                    <th>Infection Status</th>
-                    <th>Life Status</th>
-                }
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var employee in Model)
-            {
+    <div class="employees-toolbar">
+        <a class="btn" asp-controller="Employees" asp-action="Index" asp-route-createMode="true">Create Employee</a>
+    </div>
+    @if (Model.CreateMode)
+    {
+        <partial name="_EmployeeForm" model="new CreateEditEmployeeDto()"></partial>
+    }
+    else
+    {
+        <table>
+            <thead>
                 <tr>
-                    <td>@employee.Name</td>
-                    <td>@employee.Department</td>
+                    <th>Name</th>
+                    <th>Department</th>
                     @if (!User.IsInRole(Role.Admin))
                     {
-                        <td>@employee.AnnualLeaveLeft</td>
-                        <td>@employee.EmploymentType</td>
-                        <td>@employee.EmploymentStatus</td>
+                        <th>Annual Leave Left</th>
+                        <th>Employment Type</th>
+                        <th>Employment Status</th>
                     }
                     @if (User.IsInRole(Role.Admin))
                     {
-                        <td>@employee.HeartRate</td>
-                        <td>@employee.CurrentLocation</td>
-                        <td>@employee.InfectionStatus</td>
-                        <td>@employee.LifeStatus</td>
+                        <th>Heart Rate</th>
+                        <th>Current Location</th>
+                        <th>Infection Status</th>
+                        <th>Life Status</th>
                     }
-                    <td>
-                        <a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Details</a>
-                    </td>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.Employees)
+                {
+                    <tr>
+                        <td>@employee.Name</td>
+                        <td>@employee.Department</td>
+                        @if (!User.IsInRole(Role.Admin))
+                        {
+                            <td>@employee.AnnualLeaveLeft</td>
+                            <td>@employee.EmploymentType</td>
+                            <td>@employee.EmploymentStatus</td>
+                        }
+                        @if (User.IsInRole(Role.Admin))
+                        {
+                            <td>@employee.HeartRate</td>
+                            <td>@employee.CurrentLocation</td>
+                            <td>@employee.InfectionStatus</td>
+                            <td>@employee.LifeStatus</td>
+                        }
+                        <td>
+                            <a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    
 </div>

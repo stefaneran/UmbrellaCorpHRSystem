@@ -24,7 +24,7 @@ namespace UmbrellaCorpHRSystem.Controllers
             ICollection<EmailThreadListItemViewModel> emailThreadList = await _emailService.GetEmailThreadListAsync(Show);
             EmailThreadViewModel? emailThread = await _emailService.GetEmailThreadAsync(ThreadId);
 
-            EmailIndexViewModel EmailIndexModel = new EmailIndexViewModel
+            EmailIndexViewModel emailIndexModel = new EmailIndexViewModel
             {
                 Show = Show,
                 IsWriting = IsWriting,
@@ -33,7 +33,7 @@ namespace UmbrellaCorpHRSystem.Controllers
                 EmailThread = emailThread
             };
 
-            return View(EmailIndexModel);
+            return View(emailIndexModel);
         }
 
         [HttpPost]

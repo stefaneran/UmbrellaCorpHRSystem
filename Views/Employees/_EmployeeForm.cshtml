@@ -1,0 +1,45 @@
+﻿@model CreateEditEmployeeDto
+
+<form asp-controller="Employees" asp-action="CreateEmployee" class="container">
+    <div class="row">
+        <label class="col">First Name</label>
+        <input class="col" asp-for="FirstName" />
+    </div>
+    <div class="row">
+        <label class="col">Last Name</label>
+        <input class="col" asp-for="LastName" />
+    </div>
+    <div class="row">
+        <label class="col">Salary</label>
+        <input class="col" asp-for="Salary" />
+    </div>
+    <div class="row">
+        <label class="col">Total Annual Leave</label>
+        <input class="col" asp-for="TotalAnnualLeave" />
+    </div>
+    <div class="row">
+        <label class="col">Department</label>
+        <select 
+            class="col" 
+            asp-for="Department" 
+            asp-items="Html.GetEnumSelectList<Department>()">
+        </select>
+    </div>
+    <div class="row">
+        <label class="col">Employment Type</label>
+        <select 
+            class="col" 
+            asp-for="EmploymentType" 
+            asp-items="Html.GetEnumSelectList<EmploymentType>()">
+        </select>
+    </div>
+    <div class="row">
+        <label class="col">Employment Status</label>
+        <select 
+            class="col" 
+            asp-for="EmploymentStatus" 
+            asp-items="Html.GetEnumSelectList<EmploymentStatus>()">
+        </select>
+    </div>
+    <button type="submit">Create</button>
+</form>

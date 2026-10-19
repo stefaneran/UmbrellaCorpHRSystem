@@ -5,6 +5,8 @@ namespace UmbrellaCorpHRSystem.Models.Dto.Employee
 {
     public class CreateEditEmployeeDto
     {
+        public int? Id { get; set; }
+
         [Required]
         public string FirstName { get; set; } = string.Empty;
 
@@ -14,8 +16,7 @@ namespace UmbrellaCorpHRSystem.Models.Dto.Employee
         [Required]
         public int Salary { get; set; }
 
-        [Required]
-        public int TotalAnnualLeave { get; set; }
+        public int TotalAnnualLeave { get; set; } = 25;
 
         [Required]
         public Department Department { get; set; }

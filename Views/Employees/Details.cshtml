@@ -2,16 +2,35 @@
 @model EmployeeDetailsViewModel
 
 <div>
-    <div class="container">
-        <label>Name</label>
-        <p>@Model.Name</p>
+    <div class="employees-toolbar">
+        @if (Model.EditMode)
+        {
+            <a class="btn btn-primary" asp-controller="Employees" asp-action="Details">Cancel</a>
+        }
+        else
+        {
+            <a class="btn btn-primary" asp-controller="Employees" asp-action="Index">Back</a>
+            <a class="btn btn-primary" asp-controller="Employees" asp-action="Details" asp-route-editMode="true">Edit</a>
+        }
     </div>
-    <div class="container">
-        <label>Email</label>
-        <a 
-            asp-controller="Email" 
-            asp-action="Index" 
-            asp-route-isWriting="true" 
-            asp-route-recipientEmail="@Model.Email">@Model.Email</a>
-    </div>
+    @if (Model.EditMode)
+    {
+        <partial name="_EmployeeForm" model="Model.EmployeeDto" />
+    }
+    else
+    {
+        <div>
+            <div>
+                <label>Name</label>
+                <p>@Model.EmployeeInfo.Name</p>
+            </div>
+            <div>
+                <label>Email</label>
+                <a asp-controller="Email"
+                   asp-action="Index"
+                   asp-route-isWriting="true"
+                   asp-route-recipientEmail="@Model.EmployeeInfo.Email">@Model.EmployeeInfo.Email</a>
+            </div>
+        </div>
+    }
 </div>

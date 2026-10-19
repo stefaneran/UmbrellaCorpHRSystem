@@ -2,7 +2,14 @@
 
 <div class="container">
     <div class="employees-toolbar">
-        <a class="btn" asp-controller="Employees" asp-action="Index" asp-route-createMode="true">Create Employee</a>
+        @if (Model.CreateMode)
+        {
+            <a class="btn btn-primary" asp-controller="Employees" asp-action="Index">Cancel</a>
+        }
+        else
+        {
+            <a class="btn btn-primary" asp-controller="Employees" asp-action="Index" asp-route-createMode="true">Create Employee</a>
+        }
     </div>
     @if (Model.CreateMode)
     {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using UmbrellaCorpHRSystem.Data;
 using UmbrellaCorpHRSystem.Models.Dto.Employee;
 using UmbrellaCorpHRSystem.Models.Employee;
@@ -38,11 +39,11 @@ namespace UmbrellaCorpHRSystem.Services.Employees
             return employees;
         }
 
-        public async Task<EmployeeDetailsViewModel?> GetEmployeeDetailsAsync(int Id)
+        public async Task<EmployeeDetailsInfoViewModel?> GetEmployeeDetailsAsync(int id)
         {
-            EmployeeDetailsViewModel? employee = await _dbContext.Employees
-                .Where(g => g.Id == Id)
-                .Select(g => new EmployeeDetailsViewModel()
+            EmployeeDetailsInfoViewModel? employee = await _dbContext.Employees
+                .Where(g => g.Id == id)
+                .Select(g => new EmployeeDetailsInfoViewModel()
                 {
                     Name = $"{g.FirstName} {g.LastName}",
                     Email = g.Email,
@@ -62,28 +63,69 @@ namespace UmbrellaCorpHRSystem.Services.Employees
             return employee;
         }
 
-        public async Task<int> CreateEmployeeAsync(CreateEditEmployeeDto createEditEmployeeDto)
+        public async Task<CreateEditEmployeeDto?> GetEmployeeForEditAsync(int id)
+        {
+            CreateEditEmployeeDto? employeeDto = await _dbContext.Employees
+                .Where(g => g.Id == id)
+                .Select(g => new CreateEditEmployeeDto()
+                {
+                    Id = id,
+                    FirstName = g.FirstName,
+                    LastName = g.LastName,
+                    Department = g.Department,
+                    EmploymentType = g.EmploymentType,
+                    EmploymentStatus = g.EmploymentStatus,
+                    Salary = g.Salary,
+                    TotalAnnualLeave = g.TotalAnnualLeave
+                })
+                .FirstOrDefaultAsync();
+            return employeeDto;
+        }
+
+        public async Task<int> CreateEmployeeAsync(CreateEditEmployeeDto createEmployeeDto)
         {
             Random rand = new Random();
             Employee newEmployee = new Employee()
             {
-                FirstName = createEditEmployeeDto.FirstName,
-                LastName = createEditEmployeeDto.LastName,
-                Email = $"{createEditEmployeeDto.FirstName}{createEditEmployeeDto.LastName}@umbrellacorp.com".ToLowerInvariant(),
-                Salary = createEditEmployeeDto.Salary,
-                Department = createEditEmployeeDto.Department,
-                EmploymentType = createEditEmployeeDto.EmploymentType,
-                EmploymentStatus = createEditEmployeeDto.EmploymentStatus,
-                TotalAnnualLeave = createEditEmployeeDto.TotalAnnualLeave,
+                FirstName = createEmployeeDto.FirstName,
+                LastName = createEmployeeDto.LastName,
+                Email = $"{createEmployeeDto.FirstName}{createEmployeeDto.LastName}@umbrellacorp.com".ToLowerInvariant(),
+                Salary = createEmployeeDto.Salary,
+                Department = createEmployeeDto.Department,
+                EmploymentType = createEmployeeDto.EmploymentType,
+                EmploymentStatus = createEmployeeDto.EmploymentStatus,
+                TotalAnnualLeave = createEmployeeDto.TotalAnnualLeave,
                 UsedAnnualLeave = 0,
                 HeartRate = rand.Next(60, 80),
-                CurrentLocation = DepartmentExtension.GetDefaultLocation(createEditEmployeeDto.Department),
+                CurrentLocation = DepartmentExtension.GetDefaultLocation(createEmployeeDto.Department),
                 InfectionStatus = InfectionStatus.Uninfected,
                 LifeStatus = LifeStatus.Alive
             };
             _dbContext.Employees.Add(newEmployee);
             await _dbContext.SaveChangesAsync();
             return newEmployee.Id;
+        }
+
+        public async Task<bool> EditEmployeeAsync(CreateEditEmployeeDto editEmployeeDto)
+        {
+            if (editEmployeeDto.Id is not int)
+            {
+                return false;
+            }
+            var employee = await _dbContext.FindAsync<Employee>(editEmployeeDto.Id);
+            if (employee == null)
+            {
+                return false;
+            }
+            employee.FirstName = editEmployeeDto.FirstName;
+            employee.LastName = editEmployeeDto.LastName;
+            employee.Salary = editEmployeeDto.Salary;
+            employee.TotalAnnualLeave = editEmployeeDto.TotalAnnualLeave;
+            employee.Department = editEmployeeDto.Department;
+            employee.EmploymentStatus = editEmployeeDto.EmploymentStatus;
+            employee.EmploymentType = editEmployeeDto.EmploymentType;
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

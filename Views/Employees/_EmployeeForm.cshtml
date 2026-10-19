@@ -1,6 +1,9 @@
 ﻿@model CreateEditEmployeeDto
-
-<form asp-controller="Employees" asp-action="CreateEmployee" class="container">
+<p>@Model.Id</p>
+<form class="container"
+    asp-controller="Employees" 
+    asp-action="@(Model.Id == null ? "CreateEmployee" : "EditEmployee")">
+    <input type="hidden" asp-for="Id" />
     <div class="row">
         <label class="col">First Name</label>
         <input class="col" asp-for="FirstName" />
@@ -41,5 +44,5 @@
             asp-items="Html.GetEnumSelectList<EmploymentStatus>()">
         </select>
     </div>
-    <button type="submit">Create</button>
+    <button class="btn btn-primary" type="submit">Save</button>
 </form>

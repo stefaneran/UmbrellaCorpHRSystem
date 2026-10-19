@@ -1,21 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using UmbrellaCorpHRSystem.Models.Enums;
+﻿using UmbrellaCorpHRSystem.Models.Dto.Employee;
 
 namespace UmbrellaCorpHRSystem.Models.ViewModels.Employees
 {
     public class EmployeeDetailsViewModel
     {
-        public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public int Salary { get; set; }
-        public int TotalAnnualLeave { get; set; }
-        public int UsedAnnualLeave { get; set; }
-        public Department Department { get; set; }
-        public EmploymentType EmploymentType { get; set; }
-        public EmploymentStatus EmploymentStatus { get; set; }
-        public int HeartRate { get; set; }
-        public string CurrentLocation { get; set; } = string.Empty;
-        public InfectionStatus InfectionStatus { get; set; }
-        public LifeStatus LifeStatus { get; set; }
+        public EmployeeDetailsInfoViewModel EmployeeInfo { get; set; } = new EmployeeDetailsInfoViewModel();
+        public CreateEditEmployeeDto EmployeeDto { get; set; } = new CreateEditEmployeeDto();
+        public bool EditMode { get; set; }
     }
 }

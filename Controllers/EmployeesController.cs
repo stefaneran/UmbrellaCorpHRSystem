@@ -26,18 +26,54 @@ namespace UmbrellaCorpHRSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int Id)
+        public async Task<IActionResult> Details(int Id, bool EditMode = false)
         {
-            EmployeeDetailsViewModel? employee = await _employeesService.GetEmployeeDetailsAsync(Id);
-
-            return View(employee);
+            var employee = await _employeesService.GetEmployeeDetailsAsync(Id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            EmployeeDetailsViewModel employeeDetailsViewModel = new EmployeeDetailsViewModel()
+            {
+                EmployeeInfo = employee,
+                EditMode = EditMode
+            };
+            if (EditMode)
+            {
+                var employeeDto = await _employeesService.GetEmployeeForEditAsync(Id);
+                if (employeeDto == null)
+                {
+                    return NotFound();
+                }
+                employeeDetailsViewModel.EmployeeDto = employeeDto;
+            }
+            return View(employeeDetailsViewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(CreateEditEmployeeDto createEmployeeDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem();
+            }
             int newEmployeeId = await _employeesService.CreateEmployeeAsync(createEmployeeDto);
             return RedirectToAction(nameof(Details), new { Id = newEmployeeId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditEmployee(CreateEditEmployeeDto editEmployeeDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem();
+            }
+            bool success = await _employeesService.EditEmployeeAsync(editEmployeeDto);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Details), new { editEmployeeDto.Id });
         }
     }
 }

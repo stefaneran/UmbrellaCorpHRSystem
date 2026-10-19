@@ -14,33 +14,34 @@ namespace UmbrellaCorpHRSystem.Controllers
             _employeesService = employeesService;
         }
 
-        public async Task<IActionResult> Index(bool CreateMode = false)
+        public async Task<IActionResult> Index(bool createMode = false)
         {
             ICollection<EmployeeTableRowViewModel> employees = await _employeesService.GetEmployeesAsync();
             EmployeesIndexViewModel employeesIndexViewModel = new EmployeesIndexViewModel()
             {
                 Employees = employees,
-                CreateMode = CreateMode
+                CreateMode = createMode
             };
             return View(employeesIndexViewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int Id, bool EditMode = false)
+        public async Task<IActionResult> Details(int id, bool editMode = false)
         {
-            var employee = await _employeesService.GetEmployeeDetailsAsync(Id);
+            var employee = await _employeesService.GetEmployeeDetailsAsync(id);
             if (employee == null)
             {
                 return NotFound();
             }
             EmployeeDetailsViewModel employeeDetailsViewModel = new EmployeeDetailsViewModel()
             {
+                Id = id,
                 EmployeeInfo = employee,
-                EditMode = EditMode
+                EditMode = editMode
             };
-            if (EditMode)
+            if (editMode)
             {
-                var employeeDto = await _employeesService.GetEmployeeForEditAsync(Id);
+                var employeeDto = await _employeesService.GetEmployeeForEditAsync(id);
                 if (employeeDto == null)
                 {
                     return NotFound();
@@ -74,6 +75,27 @@ namespace UmbrellaCorpHRSystem.Controllers
                 return NotFound();
             }
             return RedirectToAction(nameof(Details), new { editEmployeeDto.Id });
+        }
+
+        [HttpGet]
+        public IActionResult DeleteEmployeeConfirmation(int id, string name)
+        {
+            return View(new DeleteEmployeeConfirmationViewModel()
+            {
+                Id = id,
+                Name = name
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteEmployee(int id)
+        {
+            bool success = await _employeesService.DeleteEmployeeAsync(id);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

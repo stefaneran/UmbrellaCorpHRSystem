@@ -127,5 +127,13 @@ namespace UmbrellaCorpHRSystem.Services.Employees
             await _dbContext.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> DeleteEmployeeAsync(int id)
+        {
+            int deletedRowsNum = await _dbContext.Employees
+                .Where(g => g.Id == id)
+                .ExecuteDeleteAsync();
+            return deletedRowsNum > 0;
+        }
     }
 }

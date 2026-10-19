@@ -9,8 +9,21 @@
         }
         else
         {
-            <a class="btn btn-primary" asp-controller="Employees" asp-action="Index">Back</a>
-            <a class="btn btn-primary" asp-controller="Employees" asp-action="Details" asp-route-editMode="true">Edit</a>
+            <a 
+                class="btn btn-primary" 
+                asp-controller="Employees" 
+                asp-action="Index">Back</a>
+            <a 
+                class="btn btn-primary" 
+                asp-controller="Employees" 
+                asp-action="Details" 
+                asp-route-editMode="true">Edit</a>
+            <a 
+                class="btn btn-danger" 
+                asp-controller="Employees" 
+                asp-action="DeleteEmployeeConfirmation" 
+                asp-route-id="@Model.Id"
+                asp-route-name="@Model.EmployeeInfo.Name">Delete</a>
         }
     </div>
     @if (Model.EditMode)

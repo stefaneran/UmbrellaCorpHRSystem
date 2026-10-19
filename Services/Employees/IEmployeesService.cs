@@ -10,5 +10,6 @@ namespace UmbrellaCorpHRSystem.Services.Employees
         Task<CreateEditEmployeeDto?> GetEmployeeForEditAsync(int id);
         Task<int> CreateEmployeeAsync(CreateEditEmployeeDto createEmployeeDto);
         Task<bool> EditEmployeeAsync(CreateEditEmployeeDto editEmployeeDto);
+        Task<bool> DeleteEmployeeAsync(int id);
     }
 }

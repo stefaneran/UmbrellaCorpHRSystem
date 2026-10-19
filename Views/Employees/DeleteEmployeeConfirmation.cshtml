@@ -1,0 +1,8 @@
+﻿@model DeleteEmployeeConfirmationViewModel
+
+<h1>You are about to delete @Model.Name as an employee. Are you sure?</h1>
+<form asp-controller="Employees" asp-action="DeleteEmployee">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">!!! Delete Employee !!!</button>
+    <a class="btn btn-outline-danger" asp-controller="Employees" asp-action="Details" asp-route-id="Model.Id">Cancel</a>
+</form>

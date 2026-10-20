@@ -1,0 +1,13 @@
+﻿@model ElevateAccessDto
+
+<h1>FAILSAFE PROTOCOL: Elevate Access to Admin Role</h1>
+<h2>Warning: Can only be done in emergencies</h2>
+
+<form asp-controller="Admin" asp-action="ElevateAccess">
+    <input asp-for="Password" placeholder="Password" />
+    <button class="btn btn-primary" type="submit">Elevate</button>
+</form>
+
+<form asp-controller="Admin" asp-action="DowngradeAccess">
+    <button class="btn btn-primary" type="submit">Debug: Downgrade</button>
+</form>

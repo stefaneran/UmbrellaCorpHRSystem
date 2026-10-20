@@ -5,6 +5,7 @@ using UmbrellaCorpHRSystem.Data.Seed;
 using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Services.Email;
 using UmbrellaCorpHRSystem.Services.Employees;
+using UmbrellaCorpHRSystem.Services.Admin;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IEmployeesService, EmployeesService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 var app = builder.Build();
 

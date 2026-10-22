@@ -1,5 +1,11 @@
 ﻿@model EmailThreadViewModel
 
+<div class="email-thread-toolbar">
+    <form asp-controller="Email" asp-action="DeleteThread">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <button class="btn btn-danger" type="submit">Delete Thread</button>
+    </form>
+</div>
 <div class="email-thread-messages">
     @foreach(var emailMessage in Model.Messages)
     {

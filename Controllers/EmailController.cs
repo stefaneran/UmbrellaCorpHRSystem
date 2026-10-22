@@ -15,20 +15,18 @@ namespace UmbrellaCorpHRSystem.Controllers
         }
 
         public async Task<IActionResult> Index(
-            int? ThreadId, 
-            string? RecipientEmail,
-            bool IsWriting = false, 
-            string Show = "incoming"
+            int? threadId, 
+            string? recipientEmail,
+            bool isWriting = false
         )
         {
-            ICollection<EmailThreadListItemViewModel> emailThreadList = await _emailService.GetEmailThreadListAsync(Show);
-            EmailThreadViewModel? emailThread = await _emailService.GetEmailThreadAsync(ThreadId);
+            ICollection<EmailThreadListItemViewModel> emailThreadList = await _emailService.GetEmailThreadListAsync(User);
+            EmailThreadViewModel? emailThread = await _emailService.GetEmailThreadAsync(threadId);
 
             EmailIndexViewModel emailIndexModel = new EmailIndexViewModel
             {
-                Show = Show,
-                IsWriting = IsWriting,
-                RecipientEmail = RecipientEmail,
+                IsWriting = isWriting,
+                RecipientEmail = recipientEmail,
                 EmailThreadsList = emailThreadList,
                 EmailThread = emailThread
             };
@@ -43,7 +41,7 @@ namespace UmbrellaCorpHRSystem.Controllers
             {
                 return ValidationProblem();
             }
-            var newEmailThreadId = await _emailService.SendEmailAsync(sendEmailDto);
+            var newEmailThreadId = await _emailService.SendEmailAsync(User, sendEmailDto);
             return RedirectToAction(nameof(Index), new { ThreadId = newEmailThreadId });
         }
 
@@ -54,7 +52,7 @@ namespace UmbrellaCorpHRSystem.Controllers
             {
                 return ValidationProblem();
             }
-            bool success = await _emailService.ReplyEmailAsync(replyEmailDto);
+            bool success = await _emailService.ReplyEmailAsync(User, replyEmailDto);
             if (!success)
             {
                 return NotFound();
@@ -62,6 +60,11 @@ namespace UmbrellaCorpHRSystem.Controllers
             return RedirectToAction(nameof(Index), new { replyEmailDto.ThreadId });
         }
 
-
+        [HttpPost]
+        public async Task<IActionResult> DeleteThread(int id)
+        {
+            await _emailService.DeleteEmailThreadAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿
 <form asp-controller="Email" asp-action="SendEmail" class="container">
-    <input type="hidden" name="SenderEmail" value="claireredfield@umbrellacorp.com" />
     <div class="row">
         <label class="col">To:</label>
         <input class="col" type="email" name="RecipientEmail" value="@Model?.RecipientEmail" />

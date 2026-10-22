@@ -3,15 +3,11 @@
 <div class="container d-flex email-toolbar">
     <a asp-action="Index" asp-route-isWriting="true" class="btn btn-primary">New Email</a>
 </div>
-<div class="container d-flex">
-    <div class="container email-thread-list">
-        <div class="d-flex">
-            <a asp-action="Index" asp-route-show="incoming" class="btn btn-primary">Inbox</a>
-            <a asp-action="Index" asp-route-show="outgoing" class="btn btn-primary">Sent</a>
-        </div>
+<div class="email-container container d-flex">
+    <div class="email-thread-list">
         @foreach(var emailThreadListItem in Model.EmailThreadsList)
         {
-            <a asp-action="Index" asp-route-threadId="@emailThreadListItem.Id" asp-route-show="@Model.Show" class="text-decoration-none">
+            <a asp-action="Index" asp-route-threadId="@emailThreadListItem.Id" class="text-decoration-none">
                 <div class="email-list-item @(emailThreadListItem.Id == Model.EmailThread?.Id ? "selected" : "")">
                     <p class="email-list-item-from">@emailThreadListItem.SenderEmail</p>
                     <p class="email-list-item-subject">@emailThreadListItem.Subject</p>
@@ -20,7 +16,7 @@
             </a>
         }
     </div>
-    <div class="container email-thread">
+    <div class="email-thread">
         @if(Model.IsWriting)
         {
             <partial name="_NewEmail" />

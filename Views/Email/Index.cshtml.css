@@ -1,34 +1,46 @@
 /* CSS for Index view */
-.email-thread-list {
-    flex-basis: 25%;
-    border: 1px solid black;
 
-    .email-list-item {
-        padding: 10px;
-        cursor: pointer;
+.email-container {
+    height: 70vh;
 
-        &.selected, &:hover {
-            background: #e6837c;
-        }
+    .email-thread-list {
+        flex-basis: 25%;
+        border: 1px solid black;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding: 0;
 
-        .email-list-item-from {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+        .email-list-item {
+            padding: 10px;
+            cursor: pointer;
 
-        .email-list-item-subject {
-            margin-bottom: 5px;
-        }
+            &.selected, &:hover {
+                background: #fc2828;
+                color: #fff;
+            }
 
-        .email-list-item-sent {
-            text-align: right;
-            color: #BEBEBE;
+            .email-list-item-from {
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .email-list-item-subject {
+                margin-bottom: 5px;
+            }
+
+            .email-list-item-sent {
+                text-align: right;
+                color: #BEBEBE;
+            }
         }
     }
-}
 
-.email-thread {
-    border-top: 1px solid black;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    .email-thread {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 75%;
+        border-top: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+    }
 }

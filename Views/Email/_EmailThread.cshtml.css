@@ -1,34 +1,14 @@
 /* CSS for _EmailThread view */
 
-
-.email-thread-toolbar {
+.email-thread-messages {
+    overflow-y: auto;
+    min-height: 0;
 }
 
-.email-thread-messages {
-    overflow-y: scroll;
+.email-thread-message {
+    border-left: 4px solid var(--umbrella-red);
+}
 
-    .email-thread-message {
-        border-bottom: 1px solid black;
-
-        &:nth-child(odd) {
-            background: #fc2828;
-            color: #fff;
-        }
-
-        .email-thread-message-header {
-            p {
-                padding: 5px;
-                margin-bottom: 5px;
-                border-bottom: 1px solid black;
-            }
-        }
-
-        .email-thread-message-body {
-            padding: 25px;
-
-            p {
-                white-space: pre-line;
-            }
-        }
-    }
+.email-thread-message-body p {
+    white-space: pre-line;
 }

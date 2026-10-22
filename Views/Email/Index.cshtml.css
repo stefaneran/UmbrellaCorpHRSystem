@@ -1,46 +1,41 @@
 /* CSS for Index view */
 
+.email-title {
+    border-left: 4px solid var(--umbrella-red);
+    padding-left: 0.5rem;
+}
+
 .email-container {
     height: 70vh;
+}
 
-    .email-thread-list {
-        flex-basis: 25%;
-        border: 1px solid black;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        padding: 0;
+.email-thread-list {
+    flex: 0 0 30%;
+    overflow-y: auto;
+}
 
-        .email-list-item {
-            padding: 10px;
-            cursor: pointer;
+.email-thread {
+    min-width: 0;
+}
 
-            &.selected, &:hover {
-                background: #fc2828;
-                color: #fff;
-            }
+.email-list-item {
+    border-left: 4px solid transparent;
+}
 
-            .email-list-item-from {
-                margin-bottom: 5px;
-                font-weight: bold;
-            }
+.email-list-item:hover {
+    background-color: var(--umbrella-red-tint);
+}
 
-            .email-list-item-subject {
-                margin-bottom: 5px;
-            }
+.email-list-item.selected {
+    background-color: var(--umbrella-red);
+    border-left-color: var(--umbrella-black);
+    color: #fff;
+}
 
-            .email-list-item-sent {
-                text-align: right;
-                color: #BEBEBE;
-            }
-        }
-    }
+.email-list-item-sent {
+    color: #6c757d;
+}
 
-    .email-thread {
-        display: flex;
-        flex-direction: column;
-        flex-basis: 75%;
-        border-top: 1px solid black;
-        border-right: 1px solid black;
-        border-bottom: 1px solid black;
-    }
+.email-list-item.selected .email-list-item-sent {
+    color: rgba(255, 255, 255, 0.75);
 }

@@ -1,11 +1,11 @@
 ﻿@model int
 
-<form asp-controller="Email" asp-action="ReplyEmail" class="container">
+<form asp-controller="Email" asp-action="ReplyEmail" class="d-flex flex-column gap-2">
     <input type="hidden" name="ThreadId" value="@Model" />
-    <div class="row">
-        <label class="col">Subject:</label>
-        <input class="col" type="text" name="Subject" />
+    <label class="visually-hidden" for="reply-subject">Subject</label>
+    <input class="form-control form-control-sm" id="reply-subject" type="text" name="Subject" placeholder="Subject" />
+    <textarea class="form-control" name="Body" rows="3" placeholder="Write a reply..." aria-label="Reply"></textarea>
+    <div class="text-end">
+        <button class="btn btn-sm btn-umbrella" type="submit">Send</button>
     </div>
-    <textarea name="Body"></textarea>
-    <button type="submit">Send</button>
 </form>

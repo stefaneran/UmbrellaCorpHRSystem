@@ -1,26 +1,26 @@
 ﻿@model EmailThreadViewModel
 
-<div class="email-thread-toolbar">
-    <form asp-controller="Email" asp-action="DeleteThread">
+<div class="email-thread-toolbar d-flex justify-content-end px-3 py-2 border-bottom bg-light">
+    <form asp-controller="Email" asp-action="DeleteThread" class="m-0">
         <input type="hidden" name="Id" value="@Model.Id" />
-        <button class="btn btn-danger" type="submit">Delete Thread</button>
+        <button class="btn btn-sm btn-outline-danger" type="submit">Delete Thread</button>
     </form>
 </div>
-<div class="email-thread-messages">
+<div class="email-thread-messages flex-grow-1 p-3">
     @foreach(var emailMessage in Model.Messages)
     {
-        <div class="email-thread-message">
-            <div class="email-thread-message-header">
-                <p>From: @emailMessage.SenderEmail</p>
-                <p>To: @emailMessage.RecipientEmail</p>
-                <p>Subject: @emailMessage.Subject</p>
+        <div class="email-thread-message card shadow-sm mb-3">
+            <div class="email-thread-message-header card-header bg-white small">
+                <p class="mb-0"><span class="fw-semibold">From:</span> @emailMessage.SenderEmail</p>
+                <p class="mb-0"><span class="fw-semibold">To:</span> @emailMessage.RecipientEmail</p>
+                <p class="mb-0"><span class="fw-semibold">Subject:</span> @emailMessage.Subject</p>
             </div>
-            <div class="email-thread-message-body">
-                <p>@emailMessage.Body</p>
+            <div class="email-thread-message-body card-body">
+                <p class="card-text mb-0">@emailMessage.Body</p>
             </div>
         </div>
     }
 </div>
-<div class="email-thread-reply-form">
+<div class="email-thread-reply-form border-top bg-light p-3">
     <partial name="_NewReply" model="Model.Id"></partial>
 </div>

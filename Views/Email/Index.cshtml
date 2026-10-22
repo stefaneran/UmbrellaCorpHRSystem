@@ -1,33 +1,34 @@
 ﻿@model EmailIndexViewModel
 
-<div class="container d-flex email-toolbar">
-    <a asp-action="Index" asp-route-isWriting="true" class="btn btn-primary">New Email</a>
+<div class="email-toolbar d-flex justify-content-between align-items-center mb-3">
+    <h1 class="email-title h4 mb-0 text-uppercase fw-bold">Internal Mail</h1>
+    <a asp-action="Index" asp-route-isWriting="true" class="btn btn-umbrella">New Email</a>
 </div>
-<div class="email-container container d-flex">
-    <div class="email-thread-list">
+<div class="email-container d-flex border rounded shadow-sm overflow-hidden bg-white">
+    <div class="email-thread-list border-end bg-light">
         @foreach(var emailThreadListItem in Model.EmailThreadsList)
         {
-            <a asp-action="Index" asp-route-threadId="@emailThreadListItem.Id" class="text-decoration-none">
-                <div class="email-list-item @(emailThreadListItem.Id == Model.EmailThread?.Id ? "selected" : "")">
-                    <p class="email-list-item-from">@emailThreadListItem.SenderEmail</p>
-                    <p class="email-list-item-subject">@emailThreadListItem.Subject</p>
-                    <p class="email-list-item-sent">@emailThreadListItem.SentDate</p>
+            <a asp-action="Index" asp-route-threadId="@emailThreadListItem.Id" class="d-block text-decoration-none text-reset">
+                <div class="email-list-item px-3 py-2 border-bottom @(emailThreadListItem.Id == Model.EmailThread?.Id ? "selected" : "")">
+                    <p class="email-list-item-from fw-semibold text-truncate mb-1">@emailThreadListItem.SenderEmail</p>
+                    <p class="email-list-item-subject small text-truncate mb-1">@emailThreadListItem.Subject</p>
+                    <p class="email-list-item-sent small text-end mb-0">@emailThreadListItem.SentDate</p>
                 </div>
             </a>
         }
     </div>
-    <div class="email-thread">
+    <div class="email-thread flex-grow-1 d-flex flex-column">
         @if(Model.IsWriting)
         {
             <partial name="_NewEmail" />
-        } 
+        }
         else if (Model.EmailThread is not null)
         {
             <partial name="_EmailThread" model="Model.EmailThread"/>
         }
         else
         {
-            <p>Select a thread to read it.</p>
+            <p class="text-muted m-auto">Select a thread to read it.</p>
         }
     </div>
 </div>

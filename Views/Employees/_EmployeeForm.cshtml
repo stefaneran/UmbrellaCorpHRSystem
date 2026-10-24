@@ -1,48 +1,50 @@
 ﻿@model CreateEditEmployeeDto
 <p>@Model.Id</p>
-<form class="container"
-    asp-controller="Employees" 
+<form class="row g-3"
+    asp-controller="Employees"
     asp-action="@(Model.Id == null ? "CreateEmployee" : "EditEmployee")">
     <input type="hidden" asp-for="Id" />
-    <div class="row">
-        <label class="col">First Name</label>
-        <input class="col" asp-for="FirstName" />
+    <div class="col-md-6">
+        <label class="form-label fw-semibold" for="FirstName">First Name</label>
+        <input class="form-control" asp-for="FirstName" />
     </div>
-    <div class="row">
-        <label class="col">Last Name</label>
-        <input class="col" asp-for="LastName" />
+    <div class="col-md-6">
+        <label class="form-label fw-semibold" for="LastName">Last Name</label>
+        <input class="form-control" asp-for="LastName" />
     </div>
-    <div class="row">
-        <label class="col">Salary</label>
-        <input class="col" asp-for="Salary" />
+    <div class="col-md-6">
+        <label class="form-label fw-semibold" for="Salary">Salary</label>
+        <input class="form-control" asp-for="Salary" />
     </div>
-    <div class="row">
-        <label class="col">Total Annual Leave</label>
-        <input class="col" asp-for="TotalAnnualLeave" />
+    <div class="col-md-6">
+        <label class="form-label fw-semibold" for="TotalAnnualLeave">Total Annual Leave</label>
+        <input class="form-control" asp-for="TotalAnnualLeave" />
     </div>
-    <div class="row">
-        <label class="col">Department</label>
-        <select 
-            class="col" 
-            asp-for="Department" 
+    <div class="col-md-4">
+        <label class="form-label fw-semibold" for="Department">Department</label>
+        <select
+            class="form-select"
+            asp-for="Department"
             asp-items="Html.GetEnumSelectList<Department>()">
         </select>
     </div>
-    <div class="row">
-        <label class="col">Employment Type</label>
-        <select 
-            class="col" 
-            asp-for="EmploymentType" 
+    <div class="col-md-4">
+        <label class="form-label fw-semibold" for="EmploymentType">Employment Type</label>
+        <select
+            class="form-select"
+            asp-for="EmploymentType"
             asp-items="Html.GetEnumSelectList<EmploymentType>()">
         </select>
     </div>
-    <div class="row">
-        <label class="col">Employment Status</label>
-        <select 
-            class="col" 
-            asp-for="EmploymentStatus" 
+    <div class="col-md-4">
+        <label class="form-label fw-semibold" for="EmploymentStatus">Employment Status</label>
+        <select
+            class="form-select"
+            asp-for="EmploymentStatus"
             asp-items="Html.GetEnumSelectList<EmploymentStatus>()">
         </select>
     </div>
-    <button class="btn btn-primary" type="submit">Save</button>
+    <div class="col-12 text-end">
+        <button class="btn btn-umbrella" type="submit">Save</button>
+    </div>
 </form>

@@ -1,49 +1,105 @@
 ﻿
 @model EmployeeDetailsViewModel
 
-<div>
-    <div class="employees-toolbar">
-        @if (Model.EditMode)
-        {
-            <a class="btn btn-primary" asp-controller="Employees" asp-action="Details">Cancel</a>
-        }
-        else
-        {
-            <a 
-                class="btn btn-primary" 
-                asp-controller="Employees" 
-                asp-action="Index">Back</a>
-            <a 
-                class="btn btn-primary" 
-                asp-controller="Employees" 
-                asp-action="Details" 
-                asp-route-editMode="true">Edit</a>
-            <a 
-                class="btn btn-danger" 
-                asp-controller="Employees" 
-                asp-action="DeleteEmployeeConfirmation" 
-                asp-route-id="@Model.Id"
-                asp-route-name="@Model.EmployeeInfo.Name">Delete</a>
-        }
+<div class="employee-details">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h1 class="umbrella-title h4 mb-0 text-uppercase fw-bold">Personnel File</h1>
+        <div class="employees-toolbar d-flex gap-2">
+            @if (Model.EditMode)
+            {
+                <a class="btn btn-outline-secondary" asp-controller="Employees" asp-action="Details">Cancel</a>
+            }
+            else
+            {
+                <a
+                    class="btn btn-outline-secondary"
+                    asp-controller="Employees"
+                    asp-action="Index">Back</a>
+                <a
+                    class="btn btn-umbrella"
+                    asp-controller="Employees"
+                    asp-action="Details"
+                    asp-route-editMode="true">Edit</a>
+                <a
+                    class="btn btn-outline-danger"
+                    asp-controller="Employees"
+                    asp-action="DeleteEmployeeConfirmation"
+                    asp-route-id="@Model.Id"
+                    asp-route-name="@Model.EmployeeInfo.Name">Delete</a>
+            }
+        </div>
     </div>
     @if (Model.EditMode)
     {
-        <partial name="_EmployeeForm" model="Model.EmployeeDto" />
+        <div class="card shadow-sm">
+            <div class="card-header fw-semibold text-uppercase small">Edit Employee</div>
+            <div class="card-body">
+                <partial name="_EmployeeForm" model="Model.EmployeeDto" />
+            </div>
+        </div>
     }
     else
     {
-        <div>
-            <div>
-                <label>Name</label>
-                <p>@Model.EmployeeInfo.Name</p>
-            </div>
-            <div>
-                <label>Email</label>
-                <a asp-controller="Email"
-                   asp-action="Index"
-                   asp-route-isWriting="true"
-                   asp-route-recipientEmail="@Model.EmployeeInfo.Email">@Model.EmployeeInfo.Email</a>
+        <div class="card shadow-sm mb-3">
+            <div class="card-header fw-semibold text-uppercase small">Employee Information</div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Name</dt>
+                    <dd class="col-sm-8">@Model.EmployeeInfo.Name</dd>
+
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">
+                        <a class="employee-email-link"
+                           asp-controller="Email"
+                           asp-action="Index"
+                           asp-route-isWriting="true"
+                           asp-route-recipientEmail="@Model.EmployeeInfo.Email">@Model.EmployeeInfo.Email</a>
+                    </dd>
+
+                    <dt class="col-sm-4">Salary</dt>
+                    <dd class="col-sm-8">@Model.EmployeeInfo.Salary</dd>
+
+                    <dt class="col-sm-4">Total Annual Leave</dt>
+                    <dd class="col-sm-8">@Model.EmployeeInfo.TotalAnnualLeave</dd>
+
+                    <dt class="col-sm-4">Used Annual Leave</dt>
+                    <dd class="col-sm-8">@Model.EmployeeInfo.UsedAnnualLeave</dd>
+
+                    <dt class="col-sm-4">Department</dt>
+                    <dd class="col-sm-8">@Model.EmployeeInfo.Department</dd>
+
+                    <dt class="col-sm-4">Employment Type</dt>
+                    <dd class="col-sm-8">@Model.EmployeeInfo.EmploymentType</dd>
+
+                    <dt class="col-sm-4">Employment Status</dt>
+                    <dd class="col-sm-8 mb-0">@Model.EmployeeInfo.EmploymentStatus</dd>
+                </dl>
             </div>
         </div>
+
+        @if (User.IsInRole(Role.Admin))
+        {
+            <!-- Confidential Information -->
+            <div class="card shadow-sm border-umbrella">
+                <div class="card-header text-bg-umbrella-dark fw-semibold text-uppercase small confidential-header">
+                    Confidential &mdash; Restricted Access
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Current Location</dt>
+                        <dd class="col-sm-8">@Model.EmployeeInfo.CurrentLocation</dd>
+
+                        <dt class="col-sm-4">Heart Rate</dt>
+                        <dd class="col-sm-8">@Model.EmployeeInfo.HeartRate</dd>
+
+                        <dt class="col-sm-4">Infection Status</dt>
+                        <dd class="col-sm-8">@Model.EmployeeInfo.InfectionStatus</dd>
+
+                        <dt class="col-sm-4">Life Status</dt>
+                        <dd class="col-sm-8 mb-0">@Model.EmployeeInfo.LifeStatus</dd>
+                    </dl>
+                </div>
+            </div>
+        }
     }
 </div>

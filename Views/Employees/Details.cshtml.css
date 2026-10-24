@@ -1,0 +1,19 @@
+/* CSS for Employees Details view */
+
+.employee-details dt {
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.employee-email-link {
+    color: var(--umbrella-red);
+}
+
+.employee-email-link:hover {
+    color: var(--umbrella-red-dark);
+}
+
+.confidential-header {
+    border-left: 4px solid var(--umbrella-red);
+    letter-spacing: 0.05em;
+}

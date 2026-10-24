@@ -53,3 +53,22 @@ body {
   --bs-btn-disabled-bg: var(--umbrella-red);
   --bs-btn-disabled-border-color: var(--umbrella-red);
 }
+
+.umbrella-title {
+  border-left: 4px solid var(--umbrella-red);
+  padding-left: 0.5rem;
+}
+
+.text-bg-umbrella {
+  color: #fff !important;
+  background-color: var(--umbrella-red) !important;
+}
+
+.text-bg-umbrella-dark {
+  color: #fff !important;
+  background-color: var(--umbrella-black) !important;
+}
+
+.border-umbrella {
+  border-color: var(--umbrella-red) !important;
+}

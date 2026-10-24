@@ -1,0 +1,69 @@
+/* CSS for Admin Index view */
+
+.security-banner {
+    border-left: 6px solid var(--umbrella-black);
+}
+
+.security-CodeGreen {
+    border-left-color: var(--bs-success);
+
+    h3 {
+        color: var(--bs-success);
+    }
+}
+.security-CodeYellow {
+    border-left-color: var(--bs-warning);
+
+    h3 {
+        color: var(--bs-warning);
+    }
+}
+.security-CodeOrange {
+    border-left-color: #fd7e14;
+
+    h3 {
+        color: #fd7e14;
+    }
+}
+.security-CodeRed {
+    border-left-color: var(--umbrella-red);
+    background-color: var(--umbrella-red-tint);
+
+    h3 {
+        color: var(--umbrella-red);
+    }
+}
+
+.stat-tile {
+    border-top: 3px solid var(--umbrella-red);
+}
+
+.department-tile {
+    border: 1px solid var(--bs-border-color);
+    border-left: 4px solid var(--umbrella-black);
+    border-radius: var(--bs-border-radius);
+    padding: 0.75rem;
+}
+
+.department-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+}
+
+.department-note {
+    color: var(--bs-secondary-color);
+    margin-bottom: 0;
+}
+
+.department-compromised {
+    border-left-color: var(--umbrella-red);
+    background-color: var(--umbrella-red-tint);
+}
+
+.debug-panel {
+    border: 2px dashed var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+}

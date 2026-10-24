@@ -1,25 +1,104 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using UmbrellaCorpHRSystem.Constants;
+using UmbrellaCorpHRSystem.Data;
 using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Models.Dto.Admin;
+using UmbrellaCorpHRSystem.Models.Enums;
+using UmbrellaCorpHRSystem.Models.ViewModels.Admin;
 
 namespace UmbrellaCorpHRSystem.Services.Admin
 {
     public class AdminService : IAdminService
     {
+        private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<HRSystemUser> _userManager;
         private readonly SignInManager<HRSystemUser> _signInManager;
         private readonly IConfiguration _configuration;
 
         public AdminService(
+            ApplicationDbContext dbContext,
             UserManager<HRSystemUser> userManager,
             SignInManager<HRSystemUser> signInManager,
             IConfiguration configuration)
         {
+            _dbContext = dbContext;
             _userManager = userManager;
             _configuration = configuration;
             _signInManager = signInManager;
+        }
+
+        private record EmployeeHealthStatus(Department Department, InfectionStatus InfectionStatus, LifeStatus LifeStatus);
+
+        private bool IsDepartmentCompromised(ICollection<EmployeeHealthStatus> employees, Department department)
+        {
+            foreach (EmployeeHealthStatus employee in employees)
+            {
+                if (employee.Department == department && 
+                    (employee.InfectionStatus == InfectionStatus.Infected || employee.InfectionStatus == InfectionStatus.Mutated))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private SecurityStatus GetSecurityStatus(ICollection<EmployeeHealthStatus> employees)
+        {
+            int numOfEmployees = employees.Count;
+
+            int numOfHealthy = employees.Count(g => 
+                (g.InfectionStatus == InfectionStatus.Uninfected) && (g.LifeStatus == LifeStatus.Alive));
+
+            double ratio = ((double)numOfHealthy / numOfEmployees);
+
+            if (ratio < 0.2)
+            {
+                return SecurityStatus.CodeRed;
+            }
+            else if (ratio < 0.5)
+            {
+                return SecurityStatus.CodeOrange;
+            }
+            else if (ratio < 1)
+            {
+                return SecurityStatus.CodeYellow;
+            }
+
+            return SecurityStatus.CodeGreen;
+        }
+
+        public async Task<OfficeStatusViewModel> GetOfficeStatus()
+        {
+            ICollection<EmployeeHealthStatus> employees = await _dbContext.Employees
+                .Select(g => new EmployeeHealthStatus(
+                    g.Department,
+                    g.InfectionStatus,
+                    g.LifeStatus)
+                )
+                .ToListAsync();
+
+            OfficeStatusViewModel officeStatus = new OfficeStatusViewModel()
+            {
+                NumOfEmployees = employees.Count,
+                NumOfHealthy = employees.Count(g => g.InfectionStatus == InfectionStatus.Uninfected),
+                NumOfInfected = employees.Count(g => g.InfectionStatus == InfectionStatus.Infected),
+                NumOfMutated = employees.Count(g => g.InfectionStatus == InfectionStatus.Mutated),
+                NumOfAlive = employees.Count(g => g.LifeStatus == LifeStatus.Alive),
+                NumOfDeceased = employees.Count(g => g.LifeStatus == LifeStatus.Deceased),
+                IsManagementCompromised = IsDepartmentCompromised(employees, Department.Management),
+                IsBioscienceCompromised = IsDepartmentCompromised(employees, Department.Bioscience),
+                IsTechnologyCompromised = IsDepartmentCompromised(employees, Department.Technology),
+                IsProcurementCompromised = IsDepartmentCompromised(employees, Department.Procurement),
+                IsSecurityCompromised = IsDepartmentCompromised(employees, Department.Security),
+                IsMaintenanceCompromised = IsDepartmentCompromised(employees, Department.Maintenance),
+                IsFinanceCompromised = IsDepartmentCompromised(employees, Department.Finance),
+                IsHRCompromised = IsDepartmentCompromised(employees, Department.HR),
+                SecurityStatus = GetSecurityStatus(employees)
+            };
+
+            return officeStatus;
         }
 
         public async Task<bool> ElevateAccessAsync(
@@ -59,6 +138,34 @@ namespace UmbrellaCorpHRSystem.Services.Admin
             }
             await _signInManager.RefreshSignInAsync(user);
             return true;
+        }
+
+        public async Task ThrowPizzaParty()
+        {
+            Random rand = new Random();
+            List<int> healthyEmployees = await _dbContext.Employees
+                .Where(g => g.InfectionStatus == InfectionStatus.Uninfected)
+                .Select(g => g.Id)
+                .ToListAsync();
+            List<int> employeesToBeInfected = healthyEmployees
+                .OrderBy(g => rand.Next())
+                .Take(10)
+                .ToList();
+            await _dbContext.Employees
+                .Where(g => employeesToBeInfected.Contains(g.Id))
+                .ExecuteUpdateAsync(g => g
+                    .SetProperty(p => p.InfectionStatus, InfectionStatus.Infected)
+                    .SetProperty(p => p.HeartRate, rand.Next(110, 160)));
+        }
+
+        public async Task HealOffice()
+        {
+            Random rand = new Random();
+            await _dbContext.Employees
+                .ExecuteUpdateAsync(g => g
+                    .SetProperty(p => p.InfectionStatus, InfectionStatus.Uninfected)
+                    .SetProperty(p => p.LifeStatus, LifeStatus.Alive)
+                    .SetProperty(p => p.HeartRate, rand.Next(60, 80)));
         }
     }
 }

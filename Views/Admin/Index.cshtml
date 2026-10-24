@@ -1,2 +1,234 @@
-﻿
+﻿@model OfficeStatusViewModel
 
+<div class="office-status">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h1 class="umbrella-title h4 mb-0 text-uppercase fw-bold">Umbrella HQ Office Status</h1>
+        <span class="badge text-bg-umbrella-dark text-uppercase">Admin Clearance</span>
+    </div>
+
+    <div class="security-banner card shadow-sm mb-4 security-@Model.SecurityStatus">
+        <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <h3 class="h5 mb-0 text-uppercase fw-bold">Security Status: @Model.SecurityStatus</h3>
+            <span class="small text-uppercase text-muted">Live facility monitoring</span>
+        </div>
+    </div>
+
+    @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+    {
+        <div class="card shadow-sm mb-4">
+            <div class="card-header fw-semibold text-uppercase small">Facility Supplies</div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Bathroom Toilet Paper Capacity</span>
+                    <span class="fw-semibold">57%</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Breakroom Snacks Stock</span>
+                    <span class="fw-semibold text-warning-emphasis">25% (!)</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Water Coolers Need Replacement</span>
+                    <span class="fw-semibold">3</span>
+                </li>
+                <li class="list-group-item">
+                    <div class="mb-2">Office Supplies Availability</div>
+                    <ul class="list-unstyled row row-cols-2 row-cols-md-4 g-2 mb-0 small">
+                        <li class="col"><span class="text-muted">Staples:</span> <span class="fw-semibold">82%</span></li>
+                        <li class="col"><span class="text-muted">A4 Paper:</span> <span class="fw-semibold">44%</span></li>
+                        <li class="col"><span class="text-muted">Printer Ink:</span> <span class="fw-semibold text-danger">5% (!!)</span></li>
+                        <li class="col"><span class="text-muted">Pens:</span> <span class="fw-semibold">76%</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mb-4">
+            <div class="col">
+                <div class="stat-tile card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="small text-uppercase text-muted fw-semibold">Alive</div>
+                        <div class="fs-3 fw-bold">@Model.NumOfAlive</div>
+                        <div class="small text-muted">@(Math.Round((double)Model.NumOfAlive / Model.NumOfEmployees * 100))% of staff</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="stat-tile card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="small text-uppercase text-muted fw-semibold">Deceased</div>
+                        <div class="fs-3 fw-bold">@Model.NumOfDeceased</div>
+                        <div class="small text-muted">@(Math.Round((double)Model.NumOfDeceased / Model.NumOfEmployees * 100))% of staff</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="stat-tile card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="small text-uppercase text-muted fw-semibold">Healthy</div>
+                        <div class="fs-3 fw-bold">@Model.NumOfHealthy</div>
+                        <div class="small text-muted">@(Math.Round((double)Model.NumOfHealthy / Model.NumOfEmployees * 100))% of staff</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="stat-tile card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="small text-uppercase text-muted fw-semibold">Infected</div>
+                        <div class="fs-3 fw-bold">@Model.NumOfInfected</div>
+                        <div class="small text-muted">@(Math.Round((double)Model.NumOfInfected / Model.NumOfEmployees * 100))% of staff</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="stat-tile card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="small text-uppercase text-muted fw-semibold">Mutated</div>
+                        <div class="fs-3 fw-bold">@Model.NumOfMutated</div>
+                        <div class="small text-muted">@(Math.Round((double)Model.NumOfMutated / Model.NumOfEmployees * 100))% of staff</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header fw-semibold text-uppercase small">Department Statuses</div>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
+                <div class="col">
+                    <div class="department-tile h-100">
+                        <p class="department-name">@(Department.Management)</p>
+                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        {
+                            <p class="department-note">Needs coffee refill</p>
+                        }
+                        else
+                        {
+                            <p class="department-note">@(Model.IsManagementCompromised ? "Compromised" : "Safe")</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="department-tile h-100">
+                        <p class="department-name">@(Department.Bioscience)</p>
+                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        {
+                            <p class="department-note">Low on gloves and PPE</p>
+                        }
+                        else
+                        {
+                            <p class="department-note">@(Model.IsBioscienceCompromised ? "Compromised" : "Safe")</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="department-tile h-100">
+                        <p class="department-name">@(Department.Technology)</p>
+                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        {
+                            <p class="department-note">Need 3 new HDDs</p>
+                        }
+                        else
+                        {
+                            <p class="department-note">@(Model.IsTechnologyCompromised ? "Compromised" : "Safe")</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="department-tile h-100">
+                        <p class="department-name">@(Department.Procurement)</p>
+                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        {
+                            <p class="department-note">Cages need reinforcement</p>
+                        }
+                        else
+                        {
+                            <p class="department-note">@(Model.IsProcurementCompromised ? "Compromised" : "Safe")</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="department-tile h-100">
+                        <p class="department-name">@(Department.Security)</p>
+                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        {
+                            <p class="department-note">Gun oil reserves low</p>
+                        }
+                        else
+                        {
+                            <p class="department-note">@(Model.IsSecurityCompromised ? "Compromised" : "Safe")</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="department-tile h-100">
+                        <p class="department-name">@(Department.Maintenance)</p>
+                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        {
+                            <p class="department-note">Need to order new shipment of toilet paper</p>
+                        }
+                        else
+                        {
+                            <p class="department-note">@(Model.IsMaintenanceCompromised ? "Compromised" : "Safe")</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="department-tile h-100">
+                        <p class="department-name">@(Department.Finance)</p>
+                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        {
+                            <p class="department-note">Printer ink critically low</p>
+                        }
+                        else
+                        {
+                            <p class="department-note">@(Model.IsFinanceCompromised ? "Compromised" : "Safe")</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="department-tile h-100">
+                        <p class="department-name">@(Department.HR)</p>
+                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        {
+                            <p class="department-note">3 months since last Pizza Party</p>
+                        }
+                        else
+                        {
+                            <p class="department-note">@(Model.IsHRCompromised ? "Compromised" : "Safe")</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-umbrella mb-4">
+        <div class="card-header text-bg-umbrella-dark fw-semibold text-uppercase small">Available Actions</div>
+        <div class="card-body d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-dark" asp-controller="Admin" asp-action="ThrowPizzaParty">Throw Pizza Party</a>
+            @if (Model.SecurityStatus == SecurityStatus.CodeRed)
+            {
+                <a class="btn btn-umbrella fw-bold text-uppercase" asp-controller="Admin" asp-action="InitiateSelfDestructProtocol">
+                    !!! Initiate Self Desctruct Protocol !!!
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="debug-panel p-3">
+        <div class="small text-uppercase text-muted fw-semibold mb-2">Debug</div>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-sm btn-outline-secondary" asp-controller="Admin" asp-action="HealOffice">Heal Office</a>
+        </div>
+    </div>
+</div>

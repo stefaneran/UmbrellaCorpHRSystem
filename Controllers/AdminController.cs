@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using UmbrellaCorpHRSystem.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using UmbrellaCorpHRSystem.Models.Dto.Admin;
+using UmbrellaCorpHRSystem.Models.ViewModels.Admin;
 using UmbrellaCorpHRSystem.Services.Admin;
 
 namespace UmbrellaCorpHRSystem.Controllers
@@ -15,9 +14,10 @@ namespace UmbrellaCorpHRSystem.Controllers
             _adminService = adminService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            OfficeStatusViewModel officeStatus = await _adminService.GetOfficeStatus();
+            return View(officeStatus);
         }
 
         public IActionResult ElevateAccessView()
@@ -31,6 +31,9 @@ namespace UmbrellaCorpHRSystem.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Downgrades user access from Admin to User - Debug purposes
+        /// </summary>
         public async Task<IActionResult> DowngradeAccess()
         {
             bool success = await _adminService.DowngradeAccessAsync(User);
@@ -39,6 +42,26 @@ namespace UmbrellaCorpHRSystem.Controllers
                 return NotFound();
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> ThrowPizzaParty()
+        {
+            await _adminService.ThrowPizzaParty();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> InitiateSelfDestructProtocol()
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        /// <summary>
+        /// Resets the health status of all employees in the office so we can see CodeGreen status again - Debug purposes
+        /// </summary>
+        public async Task<IActionResult> HealOffice()
+        {
+            await _adminService.HealOffice();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -72,3 +72,14 @@ body {
 .border-umbrella {
   border-color: var(--umbrella-red) !important;
 }
+
+/* Brand colors for Bootstrap's pagination component: <ul class="pagination pagination-umbrella"> */
+.pagination-umbrella {
+  --bs-pagination-color: var(--umbrella-black);
+  --bs-pagination-hover-color: var(--umbrella-red-dark);
+  --bs-pagination-hover-bg: var(--umbrella-red-tint);
+  --bs-pagination-focus-color: var(--umbrella-red-dark);
+  --bs-pagination-focus-bg: var(--umbrella-red-tint);
+  --bs-pagination-active-bg: var(--umbrella-red);
+  --bs-pagination-active-border-color: var(--umbrella-red);
+}

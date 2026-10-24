@@ -2,7 +2,7 @@
 {
     public class EmployeesIndexViewModel
     {
-        public ICollection<EmployeeTableRowViewModel> Employees { get; set; } = new List<EmployeeTableRowViewModel>();
+        public EmployeeTableViewModel EmployeeTable { get; set; } = new EmployeeTableViewModel();
         public bool CreateMode { get; set; }
     }
 }

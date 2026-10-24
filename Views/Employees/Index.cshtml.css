@@ -1,0 +1,9 @@
+/* CSS for Employees Index view */
+
+.employees-table thead th {
+    border-bottom: 3px solid var(--umbrella-red);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}

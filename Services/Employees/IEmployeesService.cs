@@ -5,7 +5,7 @@ namespace UmbrellaCorpHRSystem.Services.Employees
 {
     public interface IEmployeesService
     {
-        Task<ICollection<EmployeeTableRowViewModel>> GetEmployeesAsync();
+        Task<EmployeeTableViewModel> GetEmployeesAsync(int page);
         Task<EmployeeDetailsInfoViewModel?> GetEmployeeDetailsAsync(int id);
         Task<CreateEditEmployeeDto?> GetEmployeeForEditAsync(int id);
         Task<int> CreateEmployeeAsync(CreateEditEmployeeDto createEmployeeDto);

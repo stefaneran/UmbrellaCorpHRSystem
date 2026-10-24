@@ -17,10 +17,15 @@ namespace UmbrellaCorpHRSystem.Services.Employees
             _dbContext = dbContext;
         }
 
-        public async Task<ICollection<EmployeeTableRowViewModel>> GetEmployeesAsync()
+        public async Task<EmployeeTableViewModel> GetEmployeesAsync(int page)
         {
+            int pageSize = 10;
+            int totalEmployeeCount = _dbContext.Employees.Count();
+             
             ICollection<EmployeeTableRowViewModel> employees = await _dbContext.Employees
                 .OrderBy(g => g.FirstName)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(g => new EmployeeTableRowViewModel()
                 {
                     Id = g.Id,
@@ -36,7 +41,11 @@ namespace UmbrellaCorpHRSystem.Services.Employees
                 })
                 .ToListAsync();
 
-            return employees;
+            return new EmployeeTableViewModel()
+            {
+                TotalEmployeeCount = totalEmployeeCount,
+                Employees = employees
+            };
         }
 
         public async Task<EmployeeDetailsInfoViewModel?> GetEmployeeDetailsAsync(int id)

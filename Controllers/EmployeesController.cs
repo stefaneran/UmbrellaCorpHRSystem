@@ -14,12 +14,12 @@ namespace UmbrellaCorpHRSystem.Controllers
             _employeesService = employeesService;
         }
 
-        public async Task<IActionResult> Index(bool createMode = false)
+        public async Task<IActionResult> Index(int page = 1, bool createMode = false)
         {
-            ICollection<EmployeeTableRowViewModel> employees = await _employeesService.GetEmployeesAsync();
+            EmployeeTableViewModel employeeTable = await _employeesService.GetEmployeesAsync(page);
             EmployeesIndexViewModel employeesIndexViewModel = new EmployeesIndexViewModel()
             {
-                Employees = employees,
+                EmployeeTable = employeeTable,
                 CreateMode = createMode
             };
             return View(employeesIndexViewModel);

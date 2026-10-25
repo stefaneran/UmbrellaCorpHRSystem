@@ -4,7 +4,6 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-UmbrellaCorpHRSystem-b1785ae5-52c8-4cff-8f76-b40a794dec96</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

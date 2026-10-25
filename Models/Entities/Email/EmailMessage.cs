@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UmbrellaCorpHRSystem.Models.Email
+namespace UmbrellaCorpHRSystem.Models.Entities.Email
 {
     public class EmailMessage
     {

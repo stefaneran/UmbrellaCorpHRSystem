@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using UmbrellaCorpHRSystem.Models.Email;
 using UmbrellaCorpHRSystem.Data.Seed;
+using UmbrellaCorpHRSystem.Models.Entities.Email;
 
 namespace UmbrellaCorpHRSystem.Data.Configurations
 {

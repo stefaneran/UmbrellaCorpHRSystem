@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
-using UmbrellaCorpHRSystem.Models.Dto.Admin;
-using UmbrellaCorpHRSystem.Models.ViewModels.Admin;
+using UmbrellaCorpHRSystem.Models.Dto.Office;
+using UmbrellaCorpHRSystem.Models.ViewModels.Office;
 
-namespace UmbrellaCorpHRSystem.Services.Admin
+namespace UmbrellaCorpHRSystem.Services.Office
 {
-    public interface IAdminService
+    public interface IOfficeService
     {
         Task<OfficeStatusViewModel> GetOfficeStatus();
         Task<bool> ElevateAccessAsync(ClaimsPrincipal principal, ElevateAccessDto elevateAccessDto);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UmbrellaCorpHRSystem.Data.Seed;
-using UmbrellaCorpHRSystem.Models.Employee;
+using UmbrellaCorpHRSystem.Models.Entities.Employees;
 
 namespace UmbrellaCorpHRSystem.Data.Configurations
 {

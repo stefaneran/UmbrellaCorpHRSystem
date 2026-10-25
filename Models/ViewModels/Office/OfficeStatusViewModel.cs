@@ -1,6 +1,6 @@
 ﻿using UmbrellaCorpHRSystem.Models.Enums;
 
-namespace UmbrellaCorpHRSystem.Models.ViewModels.Admin
+namespace UmbrellaCorpHRSystem.Models.ViewModels.Office
 {
     public class OfficeStatusViewModel
     {

@@ -1,22 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using UmbrellaCorpHRSystem.Models.Dto.Admin;
-using UmbrellaCorpHRSystem.Models.ViewModels.Admin;
-using UmbrellaCorpHRSystem.Services.Admin;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using UmbrellaCorpHRSystem.Constants;
+using UmbrellaCorpHRSystem.Models.Dto.Office;
+using UmbrellaCorpHRSystem.Models.ViewModels.Office;
+using UmbrellaCorpHRSystem.Services.Office;
 
 namespace UmbrellaCorpHRSystem.Controllers
 {
-    public class AdminController : Controller
+    [Authorize]
+    public class OfficeController : Controller
     {
-        private readonly IAdminService _adminService;
+        private readonly IOfficeService _officeService;
 
-        public AdminController(IAdminService adminService)
+        public OfficeController(IOfficeService officeService)
         {
-            _adminService = adminService;
+            _officeService = officeService;
         }
 
         public async Task<IActionResult> Index()
         {
-            OfficeStatusViewModel officeStatus = await _adminService.GetOfficeStatus();
+            OfficeStatusViewModel officeStatus = await _officeService.GetOfficeStatus();
             return View(officeStatus);
         }
 
@@ -27,7 +30,7 @@ namespace UmbrellaCorpHRSystem.Controllers
 
         public async Task<IActionResult> ElevateAccess(ElevateAccessDto elevateAccessDto)
         {
-            bool success = await _adminService.ElevateAccessAsync(User, elevateAccessDto);
+            bool success = await _officeService.ElevateAccessAsync(User, elevateAccessDto);
             return RedirectToAction("Index", "Home");
         }
 
@@ -36,7 +39,7 @@ namespace UmbrellaCorpHRSystem.Controllers
         /// </summary>
         public async Task<IActionResult> DowngradeAccess()
         {
-            bool success = await _adminService.DowngradeAccessAsync(User);
+            bool success = await _officeService.DowngradeAccessAsync(User);
             if (!success)
             {
                 return NotFound();
@@ -46,10 +49,11 @@ namespace UmbrellaCorpHRSystem.Controllers
 
         public async Task<IActionResult> ThrowPizzaParty()
         {
-            await _adminService.ThrowPizzaParty();
+            await _officeService.ThrowPizzaParty();
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> InitiateSelfDestructProtocol()
         {
             return RedirectToAction(nameof(Index));
@@ -58,9 +62,10 @@ namespace UmbrellaCorpHRSystem.Controllers
         /// <summary>
         /// Resets the health status of all employees in the office so we can see CodeGreen status again - Debug purposes
         /// </summary>
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> HealOffice()
         {
-            await _adminService.HealOffice();
+            await _officeService.HealOffice();
             return RedirectToAction(nameof(Index));
         }
     }

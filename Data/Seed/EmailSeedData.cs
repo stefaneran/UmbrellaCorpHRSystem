@@ -1,4 +1,4 @@
-﻿using UmbrellaCorpHRSystem.Models.Email;
+﻿using UmbrellaCorpHRSystem.Models.Entities.Email;
 
 namespace UmbrellaCorpHRSystem.Data.Seed
 {

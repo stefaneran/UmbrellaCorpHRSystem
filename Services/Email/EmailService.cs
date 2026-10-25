@@ -5,7 +5,7 @@ using System.Security.Principal;
 using UmbrellaCorpHRSystem.Data;
 using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Models.Dto.Email;
-using UmbrellaCorpHRSystem.Models.Email;
+using UmbrellaCorpHRSystem.Models.Entities.Email;
 using UmbrellaCorpHRSystem.Models.ViewModels.Email;
 
 namespace UmbrellaCorpHRSystem.Services.Email

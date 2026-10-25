@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using UmbrellaCorpHRSystem.Data;
 using UmbrellaCorpHRSystem.Models.Dto.Employee;
-using UmbrellaCorpHRSystem.Models.Employee;
+using UmbrellaCorpHRSystem.Models.Entities.Employees;
 using UmbrellaCorpHRSystem.Models.Enums;
 using UmbrellaCorpHRSystem.Models.ViewModels.Employees;
 

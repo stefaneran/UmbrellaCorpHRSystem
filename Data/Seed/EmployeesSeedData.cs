@@ -1,5 +1,5 @@
 ﻿using UmbrellaCorpHRSystem.Models.Enums;
-using UmbrellaCorpHRSystem.Models.Employee;
+using UmbrellaCorpHRSystem.Models.Entities.Employees;
 
 namespace UmbrellaCorpHRSystem.Data.Seed
 {
@@ -53,9 +53,9 @@ namespace UmbrellaCorpHRSystem.Data.Seed
                 Department = Department.HR,
                 EmploymentStatus = EmploymentStatus.Employed,
                 EmploymentType = EmploymentType.FullTime,
-                HeartRate = 121,
+                HeartRate = 65,
                 CurrentLocation = "Administrative Office",
-                InfectionStatus = InfectionStatus.Infected,
+                InfectionStatus = InfectionStatus.Uninfected,
                 LifeStatus = LifeStatus.Alive
             },
             new Employee()

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using UmbrellaCorpHRSystem.Models.Enums;
 
-namespace UmbrellaCorpHRSystem.Models.Employee
+namespace UmbrellaCorpHRSystem.Models.Entities.Employees
 {
     public class Employee
     {

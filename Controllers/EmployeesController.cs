@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UmbrellaCorpHRSystem.Models.Dto.Employee;
 using UmbrellaCorpHRSystem.Models.ViewModels.Employees;
 using UmbrellaCorpHRSystem.Services.Employees;
 
 namespace UmbrellaCorpHRSystem.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly IEmployeesService _employeesService;
@@ -19,6 +21,7 @@ namespace UmbrellaCorpHRSystem.Controllers
             EmployeeTableViewModel employeeTable = await _employeesService.GetEmployeesAsync(page);
             EmployeesIndexViewModel employeesIndexViewModel = new EmployeesIndexViewModel()
             {
+                CurrentPage = page,
                 EmployeeTable = employeeTable,
                 CreateMode = createMode
             };

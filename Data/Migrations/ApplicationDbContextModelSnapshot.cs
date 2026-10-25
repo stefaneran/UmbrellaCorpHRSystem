@@ -159,7 +159,7 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Email.EmailMessage", b =>
+            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Entities.Email.EmailMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -240,7 +240,7 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Email.EmailThread", b =>
+            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Entities.Email.EmailThread", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,7 +281,7 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Employee.Employee", b =>
+            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Entities.Employees.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -384,8 +384,8 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                             EmploymentStatus = 1,
                             EmploymentType = 1,
                             FirstName = "Claire",
-                            HeartRate = 121,
-                            InfectionStatus = 2,
+                            HeartRate = 65,
+                            InfectionStatus = 1,
                             LastName = "Redfield",
                             LifeStatus = 1,
                             Salary = 84000,
@@ -1540,9 +1540,9 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Email.EmailMessage", b =>
+            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Entities.Email.EmailMessage", b =>
                 {
-                    b.HasOne("UmbrellaCorpHRSystem.Models.Email.EmailThread", "EmailThread")
+                    b.HasOne("UmbrellaCorpHRSystem.Models.Entities.Email.EmailThread", "EmailThread")
                         .WithMany("EmailMessages")
                         .HasForeignKey("EmailThreadId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1551,7 +1551,7 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                     b.Navigation("EmailThread");
                 });
 
-            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Email.EmailThread", b =>
+            modelBuilder.Entity("UmbrellaCorpHRSystem.Models.Entities.Email.EmailThread", b =>
                 {
                     b.Navigation("EmailMessages");
                 });

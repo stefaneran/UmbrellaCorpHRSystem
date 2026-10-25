@@ -4,20 +4,20 @@ using System.Security.Claims;
 using UmbrellaCorpHRSystem.Constants;
 using UmbrellaCorpHRSystem.Data;
 using UmbrellaCorpHRSystem.Models;
-using UmbrellaCorpHRSystem.Models.Dto.Admin;
+using UmbrellaCorpHRSystem.Models.Dto.Office;
 using UmbrellaCorpHRSystem.Models.Enums;
-using UmbrellaCorpHRSystem.Models.ViewModels.Admin;
+using UmbrellaCorpHRSystem.Models.ViewModels.Office;
 
-namespace UmbrellaCorpHRSystem.Services.Admin
+namespace UmbrellaCorpHRSystem.Services.Office
 {
-    public class AdminService : IAdminService
+    public class OfficeService : IOfficeService
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<HRSystemUser> _userManager;
         private readonly SignInManager<HRSystemUser> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public AdminService(
+        public OfficeService(
             ApplicationDbContext dbContext,
             UserManager<HRSystemUser> userManager,
             SignInManager<HRSystemUser> signInManager,
@@ -105,7 +105,7 @@ namespace UmbrellaCorpHRSystem.Services.Admin
             ClaimsPrincipal principal, 
             ElevateAccessDto elevateAccessDto)
         {
-            var password = _configuration["Admin:ElevationPassword"] ?? throw new InvalidOperationException("Password not found in secrets");
+            var password = _configuration["Admin:ElevationPassword"] ?? throw new InvalidOperationException("Password not found in config");
             if (password != elevateAccessDto.Password)
             {
                 return false;

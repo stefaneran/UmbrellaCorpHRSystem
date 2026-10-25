@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using UmbrellaCorpHRSystem.Data.Configurations;
 using UmbrellaCorpHRSystem.Models;
-using UmbrellaCorpHRSystem.Models.Email;
-using UmbrellaCorpHRSystem.Models.Employee;
+using UmbrellaCorpHRSystem.Models.Entities.Email;
+using UmbrellaCorpHRSystem.Models.Entities.Employees;
 
 namespace UmbrellaCorpHRSystem.Data
 {

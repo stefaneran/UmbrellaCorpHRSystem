@@ -34,8 +34,12 @@
     }
 }
 
-.stat-tile {
+.stat-tile-red {
     border-top: 3px solid var(--umbrella-red);
+}
+
+.stat-tile-green {
+    border-top: 3px solid var(--bs-success);
 }
 
 .department-tile {
@@ -43,6 +47,22 @@
     border-left: 4px solid var(--umbrella-black);
     border-radius: var(--bs-border-radius);
     padding: 0.75rem;
+
+    &.admin.security-compromised {
+        border-left-color: var(--umbrella-red);
+
+        .department-note {
+            color: var(--umbrella-red);
+        }
+    }
+
+    &.admin.security-safe {
+        border-left-color: var(--bs-success);
+
+        .department-note {
+            color: var(--bs-success);
+        }
+    }
 }
 
 .department-name {

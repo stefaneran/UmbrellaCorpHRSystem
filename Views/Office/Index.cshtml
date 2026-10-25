@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+    @if (!User.IsInRole(Role.Admin))
     {
         <div class="card shadow-sm mb-4">
             <div class="card-header fw-semibold text-uppercase small">Facility Supplies</div>
@@ -46,7 +46,7 @@
     {
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 mb-4">
             <div class="col">
-                <div class="stat-tile card shadow-sm h-100">
+                <div class="stat-tile-green card shadow-sm h-100">
                     <div class="card-body">
                         <div class="small text-uppercase text-muted fw-semibold">Alive</div>
                         <div class="fs-3 fw-bold">@Model.NumOfAlive</div>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="stat-tile card shadow-sm h-100">
+                <div class="stat-tile-red card shadow-sm h-100">
                     <div class="card-body">
                         <div class="small text-uppercase text-muted fw-semibold">Deceased</div>
                         <div class="fs-3 fw-bold">@Model.NumOfDeceased</div>
@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="stat-tile card shadow-sm h-100">
+                <div class="stat-tile-green card shadow-sm h-100">
                     <div class="card-body">
                         <div class="small text-uppercase text-muted fw-semibold">Healthy</div>
                         <div class="fs-3 fw-bold">@Model.NumOfHealthy</div>
@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="stat-tile card shadow-sm h-100">
+                <div class="stat-tile-red card shadow-sm h-100">
                     <div class="card-body">
                         <div class="small text-uppercase text-muted fw-semibold">Infected</div>
                         <div class="fs-3 fw-bold">@Model.NumOfInfected</div>
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="stat-tile card shadow-sm h-100">
+                <div class="stat-tile-red card shadow-sm h-100">
                     <div class="card-body">
                         <div class="small text-uppercase text-muted fw-semibold">Mutated</div>
                         <div class="fs-3 fw-bold">@Model.NumOfMutated</div>
@@ -98,9 +98,9 @@
         <div class="card-body">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
                 <div class="col">
-                    <div class="department-tile h-100">
+                    <div class="department-tile h-100 @(User.IsInRole(Role.Admin) ? "admin" : "") @(Model.IsManagementCompromised ? "security-compromised" : "security-safe")">
                         <p class="department-name">@(Department.Management)</p>
-                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        @if (!User.IsInRole(Role.Admin))
                         {
                             <p class="department-note">Needs coffee refill</p>
                         }
@@ -112,9 +112,9 @@
                 </div>
 
                 <div class="col">
-                    <div class="department-tile h-100">
+                    <div class="department-tile h-100 @(User.IsInRole(Role.Admin) ? "admin" : "") @(Model.IsBioscienceCompromised ? "security-compromised" : "security-safe")">
                         <p class="department-name">@(Department.Bioscience)</p>
-                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        @if (!User.IsInRole(Role.Admin))
                         {
                             <p class="department-note">Low on gloves and PPE</p>
                         }
@@ -126,9 +126,9 @@
                 </div>
 
                 <div class="col">
-                    <div class="department-tile h-100">
+                    <div class="department-tile h-100 @(User.IsInRole(Role.Admin) ? "admin" : "") @(Model.IsTechnologyCompromised ? "security-compromised" : "security-safe")">
                         <p class="department-name">@(Department.Technology)</p>
-                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        @if (!User.IsInRole(Role.Admin))
                         {
                             <p class="department-note">Need 3 new HDDs</p>
                         }
@@ -140,9 +140,9 @@
                 </div>
 
                 <div class="col">
-                    <div class="department-tile h-100">
+                    <div class="department-tile h-100 @(User.IsInRole(Role.Admin) ? "admin" : "") @(Model.IsProcurementCompromised ? "security-compromised" : "security-safe")">
                         <p class="department-name">@(Department.Procurement)</p>
-                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        @if (!User.IsInRole(Role.Admin))
                         {
                             <p class="department-note">Cages need reinforcement</p>
                         }
@@ -154,9 +154,9 @@
                 </div>
 
                 <div class="col">
-                    <div class="department-tile h-100">
+                    <div class="department-tile h-100 @(User.IsInRole(Role.Admin) ? "admin" : "") @(Model.IsSecurityCompromised ? "security-compromised" : "security-safe")">
                         <p class="department-name">@(Department.Security)</p>
-                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        @if (!User.IsInRole(Role.Admin))
                         {
                             <p class="department-note">Gun oil reserves low</p>
                         }
@@ -168,9 +168,9 @@
                 </div>
 
                 <div class="col">
-                    <div class="department-tile h-100">
+                    <div class="department-tile h-100 @(User.IsInRole(Role.Admin) ? "admin" : "") @(Model.IsMaintenanceCompromised ? "security-compromised" : "security-safe")">
                         <p class="department-name">@(Department.Maintenance)</p>
-                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        @if (!User.IsInRole(Role.Admin))
                         {
                             <p class="department-note">Need to order new shipment of toilet paper</p>
                         }
@@ -182,9 +182,9 @@
                 </div>
 
                 <div class="col">
-                    <div class="department-tile h-100">
+                    <div class="department-tile h-100 @(User.IsInRole(Role.Admin) ? "admin" : "") @(Model.IsFinanceCompromised ? "security-compromised" : "security-safe")">
                         <p class="department-name">@(Department.Finance)</p>
-                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        @if (!User.IsInRole(Role.Admin))
                         {
                             <p class="department-note">Printer ink critically low</p>
                         }
@@ -196,9 +196,9 @@
                 </div>
 
                 <div class="col">
-                    <div class="department-tile h-100">
+                    <div class="department-tile h-100 @(User.IsInRole(Role.Admin) ? "admin" : "") @(Model.IsHRCompromised ? "security-compromised" : "security-safe")">
                         <p class="department-name">@(Department.HR)</p>
-                        @if (Model.SecurityStatus == SecurityStatus.CodeGreen)
+                        @if (!User.IsInRole(Role.Admin))
                         {
                             <p class="department-note">3 months since last Pizza Party</p>
                         }
@@ -215,11 +215,11 @@
     <div class="card shadow-sm border-umbrella mb-4">
         <div class="card-header text-bg-umbrella-dark fw-semibold text-uppercase small">Available Actions</div>
         <div class="card-body d-flex flex-wrap gap-2">
-            <a class="btn btn-outline-dark" asp-controller="Admin" asp-action="ThrowPizzaParty">Throw Pizza Party</a>
-            @if (Model.SecurityStatus == SecurityStatus.CodeRed)
+            <a class="btn btn-outline-dark" asp-controller="Office" asp-action="ThrowPizzaParty">Throw Pizza Party</a>
+            @if (User.IsInRole(Role.Admin) && Model.SecurityStatus == SecurityStatus.CodeRed)
             {
-                <a class="btn btn-umbrella fw-bold text-uppercase" asp-controller="Admin" asp-action="InitiateSelfDestructProtocol">
-                    !!! Initiate Self Desctruct Protocol !!!
+                <a class="btn btn-umbrella fw-bold text-uppercase" asp-controller="Office" asp-action="InitiateSelfDestructProtocol">
+                    !!! Initiate Self Destruct Protocol !!!
                 </a>
             }
         </div>
@@ -228,7 +228,7 @@
     <div class="debug-panel p-3">
         <div class="small text-uppercase text-muted fw-semibold mb-2">Debug</div>
         <div class="d-flex flex-wrap gap-2">
-            <a class="btn btn-sm btn-outline-secondary" asp-controller="Admin" asp-action="HealOffice">Heal Office</a>
+            <a class="btn btn-sm btn-outline-secondary" asp-controller="Office" asp-action="HealOffice">Heal Office</a>
         </div>
     </div>
 </div>

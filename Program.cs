@@ -5,7 +5,7 @@ using UmbrellaCorpHRSystem.Data.Seed;
 using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Services.Email;
 using UmbrellaCorpHRSystem.Services.Employees;
-using UmbrellaCorpHRSystem.Services.Admin;
+using UmbrellaCorpHRSystem.Services.Office;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +26,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IEmployeesService, EmployeesService>();
-builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IOfficeService, OfficeService>();
 
 var app = builder.Build();
 
@@ -56,6 +56,7 @@ app.MapControllerRoute(
 
 app.MapRazorPages()
    .WithStaticAssets();
+
 
 // Seed roles and default user
 await IdentitySeed.SeedAsync(app.Services);

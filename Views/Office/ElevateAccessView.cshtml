@@ -10,7 +10,7 @@
                     <h2 class="h6 fw-bold mb-0">Warning: Can only be done in emergencies</h2>
                 </div>
 
-                <form class="mb-0" asp-controller="Admin" asp-action="ElevateAccess">
+                <form class="mb-0" asp-controller="Office" asp-action="ElevateAccess">
                     <label class="form-label fw-semibold small text-uppercase" for="Password">Authorization Code</label>
                     <div class="input-group">
                         <input class="form-control" type="password" autocomplete="off" asp-for="Password" placeholder="Password" />
@@ -22,7 +22,7 @@
 
         <div class="d-flex justify-content-between align-items-center border-top mt-4 pt-3">
             <span class="small text-uppercase text-muted fw-semibold">Debug</span>
-            <form class="mb-0" asp-controller="Admin" asp-action="DowngradeAccess">
+            <form class="mb-0" asp-controller="Office" asp-action="DowngradeAccess">
                 <button class="btn btn-sm btn-outline-secondary" type="submit">Debug: Downgrade</button>
             </form>
         </div>

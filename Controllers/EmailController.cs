@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UmbrellaCorpHRSystem.Models.Dto.Email;
 using UmbrellaCorpHRSystem.Models.ViewModels.Email;
 using UmbrellaCorpHRSystem.Services.Email;
 
 namespace UmbrellaCorpHRSystem.Controllers
 {
+    [Authorize]
     public class EmailController : Controller
     {
         private readonly IEmailService _emailService;

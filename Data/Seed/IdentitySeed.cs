@@ -33,7 +33,7 @@ namespace UmbrellaCorpHRSystem.Data.Seed
             {
                 return;
             }
-            var password = configuration["SeedUsers:ClairePassword"] ?? throw new InvalidOperationException("Password not found in secrets");
+            var password = configuration["SeedUsers:ClairePassword"] ?? throw new InvalidOperationException("Password not found in config");
             var user = new HRSystemUser
             {
                 UserName = email,

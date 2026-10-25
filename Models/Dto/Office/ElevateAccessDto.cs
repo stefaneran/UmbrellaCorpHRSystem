@@ -1,4 +1,4 @@
-﻿namespace UmbrellaCorpHRSystem.Models.Dto.Admin
+﻿namespace UmbrellaCorpHRSystem.Models.Dto.Office
 {
     public class ElevateAccessDto
     {

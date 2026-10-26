@@ -1,0 +1,7 @@
+.home-bulletin {
+    max-width: 52rem;
+}
+
+.bulletin-post {
+    border-top: 3px solid var(--umbrella-red);
+}

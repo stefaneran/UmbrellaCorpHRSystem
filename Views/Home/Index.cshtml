@@ -2,7 +2,67 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-bulletin mx-auto">
+    <h1 class="umbrella-title h4 text-uppercase fw-bold mb-3">Company Bulletin</h1>
+
+    @if (User.IsInRole(Role.Admin))
+    {
+        <div class="card shadow-sm border-umbrella mb-4">
+            <div class="card-header text-bg-umbrella d-flex justify-content-between align-items-center fw-bold text-uppercase small">
+                <span>Priority Alert &middot; Admins Only</span>
+                <span>@DateTime.Now.ToString("dd.MM.yyyy")</span>
+            </div>
+            <div class="card-body">
+                <h2 class="h5 fw-bold text-uppercase">All Admins On Board</h2>
+                <p class="mb-0">
+                    Attention: There is an ongoing outbreak that requires immediate attention from any security personnel and admins ASAP.
+                    There is a containment breach across several departments that may require initiation of Arklay Protocol effective immediatelly.
+                    Executive must vacate the premises at once.
+                </p>
+            </div>
+        </div>
+    }
+
+    <div class="bulletin-post card shadow-sm mb-3">
+        <div class="card-body">
+            <p class="small text-muted text-uppercase fw-semibold mb-1">24.10.2026</p>
+            <h2 class="h5 fw-bold">Bring Your Pet To Work Day</h2>
+            <p class="mb-0">
+                Once a year we let our colleagues bring their pets to the workplace so that they may show off their pets in person and enjoy their company.
+                We sometimes get some interesting guests such as Isabel Cruz's talking parrot or even Samuel Ortiz's actual chimp (we hope you didn't steal him from the labs!).
+                Whether your pet is a cat, or a dog or even a girrafe, we welcome all animals on Bring Your Pet To Work Day so that the office may be full of whimsy.
+            </p>
+        </div>
+    </div>
+
+    <div class="bulletin-post card shadow-sm mb-3">
+        <div class="card-body">
+            <p class="small text-muted text-uppercase fw-semibold mb-1">18.10.2026</p>
+            <h2 class="h5 fw-bold">Company Blood Drive</h2>
+            <p class="mb-0">
+                The company sponsored blood drive led by J. Marcus was a great success with employees donating a total of 15.8 liters of blood!
+                As a sign of appreciation, donuts have been left in the break room to celebrate this great achievement by our staff for giving back to the community.
+                We hope that future blood drives see the same amount of turnout as we at Umbrella strive to uphold our altruistic values.
+            </p>
+        </div>
+    </div>
+
+    <div class="bulletin-post card shadow-sm mb-3">
+        <div class="card-body">
+            <p class="small text-muted text-uppercase fw-semibold mb-1">10.10.2026</p>
+            <h2 class="h5 fw-bold">Townhall Meeting Report</h2>
+            <p>
+                After our bi-annual town hall with remarkable attendance by the staff we are happy to provide a summary to those who had to miss it or could not stay until the end:
+            </p>
+            <ul>
+                <li>The company has record profits of a 247% increase over the last year</li>
+                <li>Management has received a 45% bonus on their salaries for their exceptional performance</li>
+                <li>We gained 73 new clients over the last year</li>
+                <li>Sadly, we had to lay off 33% of the staff due to rising costs. However, we did add some benefits to counterbalance this</li>
+                <li>We've added a new ping pong table to the breakroom</li>
+                <li>Pizza party budget has been increased to 3 parties anually (an increase from 2)</li>
+            </ul>
+            <p class="mb-0">We look forward to our next productive fiscal year in the Umbrella Corp family.</p>
+        </div>
+    </div>
 </div>

@@ -16,7 +16,13 @@
         {
             <a asp-action="Index" asp-route-threadId="@emailThreadListItem.Id" class="d-block text-decoration-none text-reset">
                 <div class="email-list-item px-3 py-2 border-bottom @(emailThreadListItem.Id == Model.EmailThread?.Id ? "selected" : "")">
-                    <p class="email-list-item-from fw-semibold text-truncate mb-1">@emailThreadListItem.SenderEmail</p>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <p class="email-list-item-from fw-semibold text-truncate mb-0">@emailThreadListItem.SenderEmail</p>
+                        @if (!emailThreadListItem.IsRead)
+                        {
+                            <span class="email-unread-pill badge rounded-pill text-bg-umbrella flex-shrink-0 ms-auto">Unread</span>
+                        }
+                    </div>
                     <p class="email-list-item-subject small text-truncate mb-1">@emailThreadListItem.Subject</p>
                     <p class="email-list-item-sent small text-end mb-0">@emailThreadListItem.SentDate</p>
                 </div>

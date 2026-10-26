@@ -68,6 +68,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
                     .Select(g => new EmailThreadListItemViewModel
                     {
                         Id = g.Id,
+                        IsRead = g.IsRead,
                         SenderEmail = g.SenderEmail,
                         Subject = g.EmailMessages
                             .OrderByDescending(m => m.SentDate)

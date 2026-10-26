@@ -39,3 +39,8 @@
 .email-list-item.selected .email-list-item-sent {
     color: rgba(255, 255, 255, 0.75);
 }
+
+.email-list-item.selected .email-unread-pill {
+    background-color: #fff !important;
+    color: var(--umbrella-red) !important;
+}

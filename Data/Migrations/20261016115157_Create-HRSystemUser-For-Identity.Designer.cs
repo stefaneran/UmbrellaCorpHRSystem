@@ -11,7 +11,7 @@ using UmbrellaCorpHRSystem.Data;
 
 namespace UmbrellaCorpHRSystem.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(UmbrellaHRSystemDbContext))]
     [Migration("20261016115157_Create-HRSystemUser-For-Identity")]
     partial class CreateHRSystemUserForIdentity
     {

@@ -20,7 +20,7 @@ namespace UmbrellaCorpHRSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            OfficeStatusViewModel officeStatus = await _officeService.GetOfficeStatus();
+            OfficeStatusViewModel officeStatus = await _officeService.GetOfficeStatusAsync();
             return View(officeStatus);
         }
 
@@ -45,7 +45,7 @@ namespace UmbrellaCorpHRSystem.Controllers
                 return View(nameof(ElevateAccessView), elevateAccessDto);
             }
 
-            return RedirectToAction("Index", "Office");
+            return RedirectToAction(nameof(Index), "Office");
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace UmbrellaCorpHRSystem.Controllers
         public async Task<IActionResult> DowngradeAccess()
         {
             await _officeService.DowngradeAccessAsync(User);
-            return RedirectToAction("Index", "Office");
+            return RedirectToAction(nameof(Index), "Office");
         }
 
         [HttpPost]

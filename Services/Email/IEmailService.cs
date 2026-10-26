@@ -7,6 +7,13 @@ namespace UmbrellaCorpHRSystem.Services.Email
     public interface IEmailService
     {
         /// <summary>
+        /// Get number of unread email threads for the provided user
+        /// </summary>
+        /// <param name="principal"></param>
+        /// <returns></returns>
+        Task<int> GetNumOfUnreadEmailsAsync(ClaimsPrincipal principal);
+
+        /// <summary>
         /// Get list of email threads as options showing the initial sender, subject line and time sent.
         /// </summary>
         /// <param name="principal"></param>

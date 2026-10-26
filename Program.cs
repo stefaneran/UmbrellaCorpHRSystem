@@ -6,13 +6,14 @@ using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Services.Email;
 using UmbrellaCorpHRSystem.Services.Employees;
 using UmbrellaCorpHRSystem.Services.Office;
+using UmbrellaCorpHRSystem.Services.Director;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<UmbrellaHRSystemDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -22,13 +23,14 @@ builder.Services.AddDefaultIdentity<HRSystemUser>(options => {
     options.Password.RequireNonAlphanumeric = false;
     })
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<UmbrellaHRSystemDbContext>();
 
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IEmployeesService, EmployeesService>();
 builder.Services.AddScoped<IOfficeService, OfficeService>();
+builder.Services.AddScoped<IDirectorService, DirectorService>();
 
 var app = builder.Build();
 

@@ -10,9 +10,9 @@ namespace UmbrellaCorpHRSystem.Services.Employees
 {
     public class EmployeesService : IEmployeesService
     {
-        private readonly ApplicationDbContext _dbContext = null!;
+        private readonly UmbrellaHRSystemDbContext _dbContext = null!;
 
-        public EmployeesService(ApplicationDbContext dbContext)
+        public EmployeesService(UmbrellaHRSystemDbContext dbContext)
         {
             _dbContext = dbContext;
         }

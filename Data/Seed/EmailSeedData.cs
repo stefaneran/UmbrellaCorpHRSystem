@@ -14,18 +14,21 @@ namespace UmbrellaCorpHRSystem.Data.Seed
             new EmailThread
             {
                 Id = 1,
+                IsRead = false,
                 RecipientEmail = ClaireRedfieldEmail,
                 SenderEmail = AlbertWeskerEmail,
             },
             new EmailThread
             {
                 Id = 2,
+                IsRead = false,
                 RecipientEmail = ClaireRedfieldEmail,
                 SenderEmail = JamesMarcusEmail,
             },
             new EmailThread
             {
                 Id = 3,
+                IsRead = false,
                 RecipientEmail = ClaireRedfieldEmail,
                 SenderEmail = UmbrellaAutomatedSystemEmail,
             }
@@ -39,10 +42,18 @@ namespace UmbrellaCorpHRSystem.Data.Seed
                 EmailThreadId = 1,
                 RecipientEmail = ClaireRedfieldEmail,
                 SenderEmail = AlbertWeskerEmail,
-                Subject = "Welcome Claire",
+                Subject = "Welcome Claire a few favors please",
                 Body = """
                     Hello Claire,
                     Welcome to Umbrella corp.
+
+                    I am aware that you are yet to have your onboarding session with Marcus, but I would like to ask you to deal with some urgent tasks in the meantime. They will take you 7 minutes, if you can spare them:
+
+                    - Please increase Arthur Pendleton's salary to 112,000
+                    - Kindly terminate Frank Hughes's contract 
+                    - Inform Mei Lin that she may not make any more Amazon orders directly to the facillity
+                    - Finally, throw a pizza party through the office control panel to reward our employees for their most recent discovery
+
                     Best regards,
                     A. Wesker
                     """,

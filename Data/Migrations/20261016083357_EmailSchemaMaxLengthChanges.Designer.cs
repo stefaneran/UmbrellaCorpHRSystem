@@ -11,7 +11,7 @@ using UmbrellaCorpHRSystem.Data;
 
 namespace UmbrellaCorpHRSystem.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(UmbrellaHRSystemDbContext))]
     [Migration("20261016083357_EmailSchemaMaxLengthChanges")]
     partial class EmailSchemaMaxLengthChanges
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Security.Claims;
-using System.Security.Principal;
 using UmbrellaCorpHRSystem.Data;
 using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Models.Dto.Email;
@@ -12,11 +12,11 @@ namespace UmbrellaCorpHRSystem.Services.Email
 {
     public class EmailService : IEmailService
     {
-        private readonly ApplicationDbContext _dbContext = null!;
+        private readonly UmbrellaHRSystemDbContext _dbContext = null!;
         private readonly UserManager<HRSystemUser> _userManager;
 
         public EmailService(
-            ApplicationDbContext dbContext,
+            UmbrellaHRSystemDbContext dbContext,
             UserManager<HRSystemUser> userManager)
         {
             _dbContext = dbContext;
@@ -33,6 +33,23 @@ namespace UmbrellaCorpHRSystem.Services.Email
                 .FirstOrDefaultAsync();
 
             return emailParticipants?.Sender == userEmail || emailParticipants?.Recipient == userEmail;
+        }
+
+        public async Task<int> GetNumOfUnreadEmailsAsync(ClaimsPrincipal principal)
+        {
+            var user = await _userManager.GetUserAsync(principal);
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            int numOfUnreadEmailThreads = await _dbContext.EmailThreads
+                .Where(g =>
+                    g.RecipientEmail == user.Email && !g.IsRead
+                )
+                .CountAsync();
+
+            return numOfUnreadEmailThreads;
         }
 
         public async Task<ICollection<EmailThreadListItemViewModel>> GetEmailThreadListAsync(ClaimsPrincipal principal)
@@ -87,6 +104,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
                 .Select(g => new EmailThreadViewModel()
                 {
                     Id = g.Id,
+                    IsRead = g.IsRead,
                     ReplyEmailDto = new ReplyEmailDto()
                     {
                         Id = g.Id,
@@ -106,6 +124,14 @@ namespace UmbrellaCorpHRSystem.Services.Email
                         .ToList()
                 })
                 .FirstOrDefaultAsync();
+
+            if (emailThread != null && emailThread.IsRead == false)
+            {
+                await _dbContext.EmailThreads
+                    .Where(g => g.Id == emailThread.Id)
+                    .ExecuteUpdateAsync(g =>
+                        g.SetProperty(p => p.IsRead, true));
+            }
 
             return emailThread;
         }

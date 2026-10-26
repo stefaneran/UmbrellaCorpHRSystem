@@ -7,26 +7,30 @@ using UmbrellaCorpHRSystem.Models;
 using UmbrellaCorpHRSystem.Models.Dto.Office;
 using UmbrellaCorpHRSystem.Models.Enums;
 using UmbrellaCorpHRSystem.Models.ViewModels.Office;
+using UmbrellaCorpHRSystem.Services.Director;
 
 namespace UmbrellaCorpHRSystem.Services.Office
 {
     public class OfficeService : IOfficeService
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly UmbrellaHRSystemDbContext _dbContext;
         private readonly UserManager<HRSystemUser> _userManager;
         private readonly SignInManager<HRSystemUser> _signInManager;
+        private readonly IDirectorService _directorService;
         private readonly IConfiguration _configuration;
 
         public OfficeService(
-            ApplicationDbContext dbContext,
+            UmbrellaHRSystemDbContext dbContext,
             UserManager<HRSystemUser> userManager,
             SignInManager<HRSystemUser> signInManager,
+            IDirectorService directorService,
             IConfiguration configuration)
         {
             _dbContext = dbContext;
             _userManager = userManager;
-            _configuration = configuration;
             _signInManager = signInManager;
+            _directorService = directorService;
+            _configuration = configuration;
         }
 
         private record EmployeeHealthStatus(Department Department, InfectionStatus InfectionStatus, LifeStatus LifeStatus);
@@ -53,23 +57,15 @@ namespace UmbrellaCorpHRSystem.Services.Office
 
             double ratio = ((double)numOfHealthy / numOfEmployees);
 
-            if (ratio < 0.2)
+            if (ratio < 0.5)
             {
                 return SecurityStatus.CodeRed;
-            }
-            else if (ratio < 0.5)
-            {
-                return SecurityStatus.CodeOrange;
-            }
-            else if (ratio < 1)
-            {
-                return SecurityStatus.CodeYellow;
             }
 
             return SecurityStatus.CodeGreen;
         }
 
-        public async Task<OfficeStatusViewModel> GetOfficeStatus()
+        public async Task<OfficeStatusViewModel> GetOfficeStatusAsync()
         {
             ICollection<EmployeeHealthStatus> employees = await _dbContext.Employees
                 .Select(g => new EmployeeHealthStatus(
@@ -142,20 +138,7 @@ namespace UmbrellaCorpHRSystem.Services.Office
 
         public async Task ThrowPizzaParty()
         {
-            Random rand = new Random();
-            List<int> healthyEmployees = await _dbContext.Employees
-                .Where(g => g.InfectionStatus == InfectionStatus.Uninfected)
-                .Select(g => g.Id)
-                .ToListAsync();
-            List<int> employeesToBeInfected = healthyEmployees
-                .OrderBy(g => rand.Next())
-                .Take(10)
-                .ToList();
-            await _dbContext.Employees
-                .Where(g => employeesToBeInfected.Contains(g.Id))
-                .ExecuteUpdateAsync(g => g
-                    .SetProperty(p => p.InfectionStatus, InfectionStatus.Infected)
-                    .SetProperty(p => p.HeartRate, rand.Next(110, 160)));
+            await _directorService.InitiatePizzaPartyProtocol();
         }
 
         public async Task HealOffice()

@@ -4,11 +4,14 @@ namespace UmbrellaCorpHRSystem.Models.Entities.Email
 {
     public class EmailMessage
     {
+        [Required]
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public int EmailThreadId { get; set; }
 
+        [Required]
         public EmailThread EmailThread { get; set; } = null!;
 
         [Required]
@@ -27,6 +30,7 @@ namespace UmbrellaCorpHRSystem.Models.Entities.Email
         [MaxLength(2048)]
         public string Body { get; set; } = string.Empty;
 
+        [Required]
         public DateTime SentDate { get; set; } = DateTime.UtcNow;
 
 

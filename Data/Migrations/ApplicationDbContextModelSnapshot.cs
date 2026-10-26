@@ -10,7 +10,7 @@ using UmbrellaCorpHRSystem.Data;
 
 namespace UmbrellaCorpHRSystem.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(UmbrellaHRSystemDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -201,12 +201,12 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Body = "Hello Claire,\r\nWelcome to Umbrella corp.\r\nBest regards,\r\nA. Wesker",
+                            Body = "Hello Claire,\r\nWelcome to Umbrella corp.\r\n\r\nI am aware that you are yet to have your onboarding session with Marcus, but I would like to ask you to deal with some urgent tasks in the meantime. They will take you 7 minutes, if you can spare them:\r\n\r\n- Please increase Arthur Pendleton's salary to 112,000\r\n- Kindly terminate Frank Hughes's contract \r\n- Inform Mei Lin that she may not make any more Amazon orders directly to the facillity\r\n- Finally, throw a pizza party through the office control panel to reward our employees for their most recent discovery\r\n\r\nBest regards,\r\nA. Wesker",
                             EmailThreadId = 1,
                             RecipientEmail = "claireredfield@umbrellacorp.com",
                             SenderEmail = "albertwesker@umbrellacorp.com",
                             SentDate = new DateTime(2025, 6, 6, 14, 19, 35, 0, DateTimeKind.Unspecified),
-                            Subject = "Welcome Claire"
+                            Subject = "Welcome Claire a few favors please"
                         },
                         new
                         {
@@ -248,6 +248,9 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<string>("RecipientEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -264,18 +267,21 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                         new
                         {
                             Id = 1,
+                            IsRead = false,
                             RecipientEmail = "claireredfield@umbrellacorp.com",
                             SenderEmail = "albertwesker@umbrellacorp.com"
                         },
                         new
                         {
                             Id = 2,
+                            IsRead = false,
                             RecipientEmail = "claireredfield@umbrellacorp.com",
                             SenderEmail = "jamesmarcus@umbrellacorp.com"
                         },
                         new
                         {
                             Id = 3,
+                            IsRead = false,
                             RecipientEmail = "claireredfield@umbrellacorp.com",
                             SenderEmail = "automated@umbrellacorp.com"
                         });

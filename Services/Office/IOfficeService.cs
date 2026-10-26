@@ -10,7 +10,7 @@ namespace UmbrellaCorpHRSystem.Services.Office
         /// Get current status of the facillity and its departments, including the overall security status code
         /// </summary>
         /// <returns></returns>
-        Task<OfficeStatusViewModel> GetOfficeStatus();
+        Task<OfficeStatusViewModel> GetOfficeStatusAsync();
 
         /// <summary>
         /// Elevate currently signed-in user to Admin role

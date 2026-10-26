@@ -7,7 +7,7 @@ using UmbrellaCorpHRSystem.Models.Entities.Employees;
 
 namespace UmbrellaCorpHRSystem.Data
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<HRSystemUser>(options)
+    public class UmbrellaHRSystemDbContext(DbContextOptions<UmbrellaHRSystemDbContext> options) : IdentityDbContext<HRSystemUser>(options)
     {
 
         public DbSet<EmailThread> EmailThreads { get; set; } = null!;

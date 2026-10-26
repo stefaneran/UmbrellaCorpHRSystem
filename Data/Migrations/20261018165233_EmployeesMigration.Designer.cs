@@ -11,7 +11,7 @@ using UmbrellaCorpHRSystem.Data;
 
 namespace UmbrellaCorpHRSystem.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(UmbrellaHRSystemDbContext))]
     [Migration("20261018165233_EmployeesMigration")]
     partial class EmployeesMigration
     {

@@ -16,6 +16,15 @@ namespace UmbrellaCorpHRSystem.Controllers
             return View();
         }
 
+        public IActionResult StatusCodeError(int statusCode)
+        {
+            if (statusCode == 404)
+            {
+                return View("NotFound");
+            }
+            return View("Error", new ErrorViewModel());
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

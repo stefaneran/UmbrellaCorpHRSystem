@@ -20,7 +20,7 @@ namespace UmbrellaCorpHRSystem.Controllers
         {
             ICollection<EmailThreadListItemViewModel> emailThreadList = await _emailService.GetEmailThreadListAsync(User);
 
-            EmailThreadViewModel? emailThread = await _emailService.GetEmailThreadAsync(threadId);
+            EmailThreadViewModel? emailThread = await _emailService.GetEmailThreadAsync(User, threadId);
             if (emailThread != null && replyEmailDto != null)
             {
                 emailThread.ReplyEmailDto = replyEmailDto;
@@ -50,6 +50,10 @@ namespace UmbrellaCorpHRSystem.Controllers
             bool isWriting = false)
         {
             EmailIndexViewModel emailIndexModel = await GetIndexViewModel(isWriting, threadId, recipientEmail, null, null);
+            if (threadId != null && emailIndexModel.EmailThread == null)
+            {
+                return NotFound();
+            }
             return View(emailIndexModel);
         }
 
@@ -92,7 +96,11 @@ namespace UmbrellaCorpHRSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteThread(int id)
         {
-            await _emailService.DeleteEmailThreadAsync(id);
+            bool success = await _emailService.DeleteEmailThreadAsync(User, id);
+            if (!success)
+            {
+                return NotFound();
+            }
             return RedirectToAction(nameof(Index));
         }
     }

@@ -23,6 +23,18 @@ namespace UmbrellaCorpHRSystem.Services.Email
             _userManager = userManager;
         }
 
+        private record EmailParticipants(string Sender, string Recipient);
+
+        private async Task<bool> CheckIfUserEligibleForOperation(string? userEmail, int? threadId)
+        {
+            EmailParticipants? emailParticipants = await _dbContext.EmailThreads
+                .Where(g => g.Id == threadId)
+                .Select(g => new EmailParticipants(g.SenderEmail, g.RecipientEmail))
+                .FirstOrDefaultAsync();
+
+            return emailParticipants?.Sender == userEmail || emailParticipants?.Recipient == userEmail;
+        }
+
         public async Task<ICollection<EmailThreadListItemViewModel>> GetEmailThreadListAsync(ClaimsPrincipal principal)
         {
             var user = await _userManager.GetUserAsync(principal);
@@ -52,14 +64,26 @@ namespace UmbrellaCorpHRSystem.Services.Email
             return emailThreadList;
         }
 
-        public async Task<EmailThreadViewModel?> GetEmailThreadAsync(int? Id)
+        public async Task<EmailThreadViewModel?> GetEmailThreadAsync(ClaimsPrincipal principal, int? id)
         {
-            if (Id == null)
+            if (id == null)
             {
                 return null;
             }
+
+            var user = await _userManager.GetUserAsync(principal);
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            if (!await CheckIfUserEligibleForOperation(user.Email, id))
+            {
+                return null;
+            }
+
             EmailThreadViewModel? emailThread = await _dbContext.EmailThreads
-                .Where(g => g.Id == Id)
+                .Where(g => g.Id == id)
                 .Select(g => new EmailThreadViewModel()
                 {
                     Id = g.Id,
@@ -130,24 +154,21 @@ namespace UmbrellaCorpHRSystem.Services.Email
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            var emailThread = await _dbContext.EmailThreads
+            EmailParticipants? emailParticipants = await _dbContext.EmailThreads
                 .Where(g => g.Id == replyEmailDto.Id)
-                .Select(g => new { 
-                    g.SenderEmail, 
-                    g.RecipientEmail 
-                })
+                .Select(g => new EmailParticipants(g.SenderEmail, g.RecipientEmail))
                 .FirstOrDefaultAsync();
 
-            if (emailThread == null)
+            if (emailParticipants == null)
             {
                 return false;
             }
             string senderEmail = user.Email ?? throw new InvalidOperationException();
-            if ((senderEmail != emailThread.SenderEmail) && (senderEmail != emailThread.RecipientEmail))
+            if ((senderEmail != emailParticipants?.Sender) && (senderEmail != emailParticipants?.Recipient))
             {
                 return false;
             }
-            string recipientEmail = senderEmail == emailThread.SenderEmail ? emailThread.RecipientEmail : emailThread.SenderEmail;
+            string recipientEmail = senderEmail == emailParticipants.Sender ? emailParticipants.Recipient : emailParticipants.Sender;
 
             EmailMessage newEmailMessage = new EmailMessage()
             {
@@ -164,11 +185,23 @@ namespace UmbrellaCorpHRSystem.Services.Email
             return true;
         }
 
-        public async Task<bool> DeleteEmailThreadAsync(int id)
+        public async Task<bool> DeleteEmailThreadAsync(ClaimsPrincipal principal, int id)
         {
+            var user = await _userManager.GetUserAsync(principal);
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            if (!await CheckIfUserEligibleForOperation(user.Email, id))
+            {
+                return false;
+            }
+
             int deletedRowsNum = await _dbContext.EmailThreads
                 .Where(g => g.Id == id)
                 .ExecuteDeleteAsync();
+
             return deletedRowsNum > 0;
         }
     }

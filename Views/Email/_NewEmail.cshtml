@@ -1,19 +1,23 @@
-﻿
+﻿@model SendEmailDto
+
 <form asp-controller="Email" asp-action="SendEmail" class="d-flex flex-column gap-3 h-100 p-4">
     <h2 class="h5 mb-0 text-uppercase fw-bold">New Message</h2>
     <div class="row g-2 align-items-center">
-        <label class="col-sm-2 col-form-label fw-semibold" for="new-email-recipient">To</label>
+        <label class="col-sm-2 col-form-label fw-semibold" for="RecipientEmail">To</label>
         <div class="col-sm-10">
-            <input class="form-control" id="new-email-recipient" type="email" name="RecipientEmail" value="@Model?.RecipientEmail" />
+            <input asp-for="RecipientEmail" class="form-control" />
+            <span asp-validation-for="RecipientEmail" class="text-danger small"></span>
         </div>
     </div>
     <div class="row g-2 align-items-center">
-        <label class="col-sm-2 col-form-label fw-semibold" for="new-email-subject">Subject</label>
+        <label class="col-sm-2 col-form-label fw-semibold" for="Subject">Subject</label>
         <div class="col-sm-10">
-            <input class="form-control" id="new-email-subject" type="text" name="Subject" />
+            <input asp-for="Subject" class="form-control" />
+            <span asp-validation-for="Subject" class="text-danger small"></span>
         </div>
     </div>
-    <textarea class="form-control flex-grow-1" name="Body" rows="10" placeholder="Write your message..." aria-label="Message"></textarea>
+    <textarea asp-for="Body" class="form-control flex-grow-1" rows="10" placeholder="Write your message..." aria-label="Message"></textarea>
+    <span asp-validation-for="Body" class="text-danger small"></span>
     <div class="text-end">
         <button class="btn btn-umbrella" type="submit">Send</button>
     </div>

@@ -2,7 +2,13 @@
 
 <div class="email-toolbar d-flex justify-content-between align-items-center mb-3">
     <h1 class="email-title h4 mb-0 text-uppercase fw-bold">Internal Mail</h1>
-    <a asp-action="Index" asp-route-isWriting="true" class="btn btn-umbrella">New Email</a>
+    <div>
+        @if (Model.IsWriting)
+        {
+            <a asp-action="Index" asp-route-isWriting="false" class="btn btn-umbrella">Cancel</a>
+        }
+        <a asp-action="Index" asp-route-isWriting="true" class="btn btn-umbrella">New Email</a>
+    </div>
 </div>
 <div class="email-container d-flex border rounded shadow-sm overflow-hidden bg-white">
     <div class="email-thread-list border-end bg-light">
@@ -20,7 +26,7 @@
     <div class="email-thread flex-grow-1 d-flex flex-column">
         @if(Model.IsWriting)
         {
-            <partial name="_NewEmail" />
+            <partial name="_NewEmail" model="Model.SendEmailDto" />
         }
         else if (Model.EmailThread is not null)
         {

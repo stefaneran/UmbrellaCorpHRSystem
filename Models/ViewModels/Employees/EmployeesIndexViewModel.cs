@@ -1,9 +1,12 @@
-﻿namespace UmbrellaCorpHRSystem.Models.ViewModels.Employees
+﻿using UmbrellaCorpHRSystem.Models.Dto.Employee;
+
+namespace UmbrellaCorpHRSystem.Models.ViewModels.Employees
 {
     public class EmployeesIndexViewModel
     {
         public int CurrentPage { get; set; }
         public EmployeeTableViewModel EmployeeTable { get; set; } = new EmployeeTableViewModel();
         public bool CreateMode { get; set; }
+        public CreateEditEmployeeDto? CreateEmployeeDto { get; set; }
     }
 }

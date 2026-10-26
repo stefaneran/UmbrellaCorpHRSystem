@@ -11,28 +11,45 @@ namespace UmbrellaCorpHRSystem.Controllers
     {
         private readonly IEmailService _emailService;
 
-        public EmailController(IEmailService emailService)
-        {
-            _emailService = emailService;
-        }
-
-        public async Task<IActionResult> Index(
+        private async Task<EmailIndexViewModel> GetIndexViewModel(
+            bool isWriting, 
             int? threadId, 
             string? recipientEmail,
-            bool isWriting = false
-        )
+            SendEmailDto? sendEmailDto,
+            ReplyEmailDto? replyEmailDto)
         {
             ICollection<EmailThreadListItemViewModel> emailThreadList = await _emailService.GetEmailThreadListAsync(User);
+
             EmailThreadViewModel? emailThread = await _emailService.GetEmailThreadAsync(threadId);
+            if (emailThread != null && replyEmailDto != null)
+            {
+                emailThread.ReplyEmailDto = replyEmailDto;
+            }
 
             EmailIndexViewModel emailIndexModel = new EmailIndexViewModel
             {
                 IsWriting = isWriting,
                 RecipientEmail = recipientEmail,
                 EmailThreadsList = emailThreadList,
-                EmailThread = emailThread
+                EmailThread = emailThread,
+                SendEmailDto = sendEmailDto
             };
 
+            return emailIndexModel;
+        }
+
+        public EmailController(IEmailService emailService)
+        {
+            _emailService = emailService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(
+            int? threadId, 
+            string? recipientEmail,
+            bool isWriting = false)
+        {
+            EmailIndexViewModel emailIndexModel = await GetIndexViewModel(isWriting, threadId, recipientEmail, null, null);
             return View(emailIndexModel);
         }
 
@@ -41,7 +58,8 @@ namespace UmbrellaCorpHRSystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ValidationProblem();
+                EmailIndexViewModel emailIndexModel = await GetIndexViewModel(true, null, sendEmailDto.RecipientEmail, sendEmailDto, null);
+                return View(nameof(Index), emailIndexModel);
             }
             var newEmailThreadId = await _emailService.SendEmailAsync(User, sendEmailDto);
             return RedirectToAction(nameof(Index), new { ThreadId = newEmailThreadId });
@@ -52,14 +70,15 @@ namespace UmbrellaCorpHRSystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ValidationProblem();
+                EmailIndexViewModel emailIndexModel = await GetIndexViewModel(false, replyEmailDto.Id, null, null, replyEmailDto);
+                return View(nameof(Index), emailIndexModel);
             }
             bool success = await _emailService.ReplyEmailAsync(User, replyEmailDto);
             if (!success)
             {
                 return NotFound();
             }
-            return RedirectToAction(nameof(Index), new { replyEmailDto.ThreadId });
+            return RedirectToAction(nameof(Index), new { threadId = replyEmailDto.Id });
         }
 
         [HttpPost]

@@ -16,41 +16,54 @@ namespace UmbrellaCorpHRSystem.Controllers
             _employeesService = employeesService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(int page = 1, bool createMode = false)
         {
-            EmployeeTableViewModel employeeTable = await _employeesService.GetEmployeesAsync(page);
             EmployeesIndexViewModel employeesIndexViewModel = new EmployeesIndexViewModel()
             {
-                CurrentPage = page,
-                EmployeeTable = employeeTable,
                 CreateMode = createMode
             };
+            if (!createMode)
+            {
+                EmployeeTableViewModel employeeTable = await _employeesService.GetEmployeesAsync(page);
+                employeesIndexViewModel.CurrentPage = page;
+                employeesIndexViewModel.EmployeeTable = employeeTable;
+            }
             return View(employeesIndexViewModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id, bool editMode = false)
         {
-            var employee = await _employeesService.GetEmployeeDetailsAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
             EmployeeDetailsViewModel employeeDetailsViewModel = new EmployeeDetailsViewModel()
             {
                 Id = id,
-                EmployeeInfo = employee,
                 EditMode = editMode
             };
-            if (editMode)
+
+            if (!editMode)
+            {
+                var employee = await _employeesService.GetEmployeeDetailsAsync(id);
+
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+
+                employeeDetailsViewModel.EmployeeInfo = employee;
+            }
+            else
             {
                 var employeeDto = await _employeesService.GetEmployeeForEditAsync(id);
+
                 if (employeeDto == null)
                 {
                     return NotFound();
                 }
-                employeeDetailsViewModel.EmployeeDto = employeeDto;
+
+                employeeDetailsViewModel.EditEmployeeDto = employeeDto;
             }
+
             return View(employeeDetailsViewModel);
         }
 
@@ -59,9 +72,15 @@ namespace UmbrellaCorpHRSystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ValidationProblem();
+                return View(nameof(Index), new EmployeesIndexViewModel()
+                {
+                    CreateMode = true,
+                    CreateEmployeeDto = createEmployeeDto
+                });
             }
+
             int newEmployeeId = await _employeesService.CreateEmployeeAsync(createEmployeeDto);
+
             return RedirectToAction(nameof(Details), new { Id = newEmployeeId });
         }
 
@@ -70,13 +89,21 @@ namespace UmbrellaCorpHRSystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ValidationProblem();
+                return View(nameof(Details), new EmployeeDetailsViewModel()
+                {
+                    Id = editEmployeeDto.Id,
+                    EditMode = true,
+                    EditEmployeeDto = editEmployeeDto
+                });
             }
+
             bool success = await _employeesService.EditEmployeeAsync(editEmployeeDto);
+
             if (!success)
             {
                 return NotFound();
             }
+
             return RedirectToAction(nameof(Details), new { editEmployeeDto.Id });
         }
 

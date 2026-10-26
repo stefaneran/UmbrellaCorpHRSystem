@@ -1,24 +1,27 @@
 ﻿@model CreateEditEmployeeDto
-<p>@Model.Id</p>
 <form class="row g-3"
     asp-controller="Employees"
-    asp-action="@(Model.Id == null ? "CreateEmployee" : "EditEmployee")">
+    asp-action="@(Model.Id == 0 ? "CreateEmployee" : "EditEmployee")">
     <input type="hidden" asp-for="Id" />
     <div class="col-md-6">
         <label class="form-label fw-semibold" for="FirstName">First Name</label>
         <input class="form-control" asp-for="FirstName" />
+        <span asp-validation-for="FirstName" class="text-danger small"></span>
     </div>
     <div class="col-md-6">
         <label class="form-label fw-semibold" for="LastName">Last Name</label>
         <input class="form-control" asp-for="LastName" />
+        <span asp-validation-for="LastName" class="text-danger small"></span>
     </div>
     <div class="col-md-6">
         <label class="form-label fw-semibold" for="Salary">Salary</label>
         <input class="form-control" asp-for="Salary" />
+        <span asp-validation-for="Salary" class="text-danger small"></span>
     </div>
     <div class="col-md-6">
         <label class="form-label fw-semibold" for="TotalAnnualLeave">Total Annual Leave</label>
         <input class="form-control" asp-for="TotalAnnualLeave" />
+        <span asp-validation-for="TotalAnnualLeave" class="text-danger small"></span>
     </div>
     <div class="col-md-4">
         <label class="form-label fw-semibold" for="Department">Department</label>

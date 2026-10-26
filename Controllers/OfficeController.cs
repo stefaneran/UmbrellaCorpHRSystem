@@ -17,26 +17,35 @@ namespace UmbrellaCorpHRSystem.Controllers
             _officeService = officeService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             OfficeStatusViewModel officeStatus = await _officeService.GetOfficeStatus();
             return View(officeStatus);
         }
 
+        [HttpGet]
         public IActionResult ElevateAccessView()
         {
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> ElevateAccess(ElevateAccessDto elevateAccessDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(ElevateAccessView), elevateAccessDto);
+            }
             bool success = await _officeService.ElevateAccessAsync(User, elevateAccessDto);
-            return RedirectToAction("Index", "Home");
+            // TODO is success == false
+            return RedirectToAction("Index", "Office");
         }
 
         /// <summary>
         /// Downgrades user access from Admin to User - Debug purposes
         /// </summary>
+        [HttpPost]
         public async Task<IActionResult> DowngradeAccess()
         {
             bool success = await _officeService.DowngradeAccessAsync(User);
@@ -44,9 +53,10 @@ namespace UmbrellaCorpHRSystem.Controllers
             {
                 return NotFound();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Office");
         }
 
+        [HttpPost]
         public async Task<IActionResult> ThrowPizzaParty()
         {
             await _officeService.ThrowPizzaParty();
@@ -54,6 +64,7 @@ namespace UmbrellaCorpHRSystem.Controllers
         }
 
         [Authorize(Roles = Role.Admin)]
+        [HttpPost]
         public async Task<IActionResult> InitiateSelfDestructProtocol()
         {
             return RedirectToAction(nameof(Index));
@@ -63,6 +74,7 @@ namespace UmbrellaCorpHRSystem.Controllers
         /// Resets the health status of all employees in the office so we can see CodeGreen status again - Debug purposes
         /// </summary>
         [Authorize(Roles = Role.Admin)]
+        [HttpPost]
         public async Task<IActionResult> HealOffice()
         {
             await _officeService.HealOffice();

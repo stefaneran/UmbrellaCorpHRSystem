@@ -63,6 +63,12 @@ namespace UmbrellaCorpHRSystem.Services.Email
                 .Select(g => new EmailThreadViewModel()
                 {
                     Id = g.Id,
+                    ReplyEmailDto = new ReplyEmailDto()
+                    {
+                        Id = g.Id,
+                        Subject = "",
+                        Body = ""
+                    },
                     Messages = g.EmailMessages
                         .OrderBy(m => m.SentDate)
                         .Select(m => new EmailMessageViewModel()
@@ -89,13 +95,13 @@ namespace UmbrellaCorpHRSystem.Services.Email
             }
             EmailThread newEmailThread = new EmailThread()
             {
-                SenderEmail = user.Email,
+                SenderEmail = user.Email ?? "",
                 RecipientEmail = sendEmailDto.RecipientEmail,
                 EmailMessages =
                 {
                     new EmailMessage()
                     {
-                        SenderEmail = user.Email,
+                        SenderEmail = user.Email ?? "",
                         RecipientEmail = sendEmailDto.RecipientEmail,
                         Subject = sendEmailDto.Subject ?? "No Subject",
                         Body = sendEmailDto.Body ?? string.Empty,
@@ -116,7 +122,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
                 throw new ArgumentNullException(nameof(user));
             }
             var emailThread = await _dbContext.EmailThreads
-                .Where(g => g.Id == replyEmailDto.ThreadId)
+                .Where(g => g.Id == replyEmailDto.Id)
                 .Select(g => new { 
                     g.SenderEmail, 
                     g.RecipientEmail 
@@ -136,7 +142,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
 
             EmailMessage newEmailMessage = new EmailMessage()
             {
-                EmailThreadId = replyEmailDto.ThreadId,
+                EmailThreadId = replyEmailDto.Id,
                 SenderEmail = senderEmail,
                 RecipientEmail = recipientEmail,
                 Subject = replyEmailDto.Subject ?? "No Subject",

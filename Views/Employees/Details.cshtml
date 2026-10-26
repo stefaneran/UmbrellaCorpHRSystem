@@ -7,7 +7,7 @@
         <div class="employees-toolbar d-flex gap-2">
             @if (Model.EditMode)
             {
-                <a class="btn btn-outline-secondary" asp-controller="Employees" asp-action="Details">Cancel</a>
+                <a class="btn btn-outline-secondary" asp-controller="Employees" asp-action="Details" asp-route-id="@Model.Id">Cancel</a>
             }
             else
             {
@@ -34,7 +34,7 @@
         <div class="card shadow-sm">
             <div class="card-header fw-semibold text-uppercase small">Edit Employee</div>
             <div class="card-body">
-                <partial name="_EmployeeForm" model="Model.EmployeeDto" />
+                <partial name="_EmployeeForm" model="Model.EditEmployeeDto" />
             </div>
         </div>
     }

@@ -117,7 +117,7 @@ namespace UmbrellaCorpHRSystem.Services.Employees
 
         public async Task<bool> EditEmployeeAsync(CreateEditEmployeeDto editEmployeeDto)
         {
-            if (editEmployeeDto.Id is not int)
+            if (editEmployeeDto.Id == 0)
             {
                 return false;
             }

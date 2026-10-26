@@ -1,4 +1,6 @@
-﻿namespace UmbrellaCorpHRSystem.Models.ViewModels.Email
+﻿using UmbrellaCorpHRSystem.Models.Dto.Email;
+
+namespace UmbrellaCorpHRSystem.Models.ViewModels.Email
 {
     public class EmailIndexViewModel
     {
@@ -6,5 +8,6 @@
         public string? RecipientEmail { get; set; }
         public ICollection<EmailThreadListItemViewModel> EmailThreadsList { get; set; } = new HashSet<EmailThreadListItemViewModel>();
         public EmailThreadViewModel? EmailThread { get; set; }
+        public SendEmailDto? SendEmailDto { get; set; } = new SendEmailDto();
     }
 }

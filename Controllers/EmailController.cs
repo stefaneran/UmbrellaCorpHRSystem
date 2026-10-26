@@ -61,7 +61,15 @@ namespace UmbrellaCorpHRSystem.Controllers
                 EmailIndexViewModel emailIndexModel = await GetIndexViewModel(true, null, sendEmailDto.RecipientEmail, sendEmailDto, null);
                 return View(nameof(Index), emailIndexModel);
             }
-            var newEmailThreadId = await _emailService.SendEmailAsync(User, sendEmailDto);
+
+            int newEmailThreadId = await _emailService.SendEmailAsync(User, sendEmailDto);
+            if (newEmailThreadId == -1)
+            {
+                ModelState.AddModelError(nameof(SendEmailDto.RecipientEmail), "Error: User with this Email does not exist.");
+                EmailIndexViewModel emailIndexModel = await GetIndexViewModel(true, null, sendEmailDto.RecipientEmail, sendEmailDto, null);
+                return View(nameof(Index), emailIndexModel);
+            }
+
             return RedirectToAction(nameof(Index), new { ThreadId = newEmailThreadId });
         }
 

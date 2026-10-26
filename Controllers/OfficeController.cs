@@ -37,8 +37,14 @@ namespace UmbrellaCorpHRSystem.Controllers
             {
                 return View(nameof(ElevateAccessView), elevateAccessDto);
             }
+
             bool success = await _officeService.ElevateAccessAsync(User, elevateAccessDto);
-            // TODO is success == false
+            if (!success)
+            {
+                ModelState.AddModelError(nameof(ElevateAccessDto.Password), "ACCESS DENIED: UNAUTHORIZED CODE");
+                return View(nameof(ElevateAccessView), elevateAccessDto);
+            }
+
             return RedirectToAction("Index", "Office");
         }
 
@@ -48,11 +54,7 @@ namespace UmbrellaCorpHRSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> DowngradeAccess()
         {
-            bool success = await _officeService.DowngradeAccessAsync(User);
-            if (!success)
-            {
-                return NotFound();
-            }
+            await _officeService.DowngradeAccessAsync(User);
             return RedirectToAction("Index", "Office");
         }
 

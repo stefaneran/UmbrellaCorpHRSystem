@@ -23,12 +23,14 @@ namespace UmbrellaCorpHRSystem.Controllers
             {
                 CreateMode = createMode
             };
+
             if (!createMode)
             {
                 EmployeeTableViewModel employeeTable = await _employeesService.GetEmployeesAsync(page);
                 employeesIndexViewModel.CurrentPage = page;
                 employeesIndexViewModel.EmployeeTable = employeeTable;
             }
+
             return View(employeesIndexViewModel);
         }
 
@@ -121,10 +123,12 @@ namespace UmbrellaCorpHRSystem.Controllers
         public async Task<IActionResult> DeleteEmployee(int id)
         {
             bool success = await _employeesService.DeleteEmployeeAsync(id);
+
             if (!success)
             {
                 return NotFound();
             }
+
             return RedirectToAction(nameof(Index));
         }
     }

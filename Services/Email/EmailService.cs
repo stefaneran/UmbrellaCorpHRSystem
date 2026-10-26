@@ -93,6 +93,15 @@ namespace UmbrellaCorpHRSystem.Services.Email
             {
                 throw new ArgumentNullException(nameof(user));
             }
+
+            var recipient = await _dbContext.Employees
+                .Where(g => g.Email == sendEmailDto.RecipientEmail.ToLowerInvariant())
+                .FirstOrDefaultAsync();
+            if (recipient == null)
+            {
+                return -1;
+            }
+
             EmailThread newEmailThread = new EmailThread()
             {
                 SenderEmail = user.Email ?? "",

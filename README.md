@@ -37,10 +37,10 @@ Visual Studio version that supports .NET 10 with installed SQL Server LocalDB
 ## Setup
 
 1) Open the UmbrellaCorpHRSystem.slnx file with Visual Studio 
-
-2) Run `Update-Database` in the Package Manager Console to apply migrations
-
-3) Run the project (Press F5)
+2) Build the solution (Ctrl+Shift+B) so all NuGet packages are restored
+3) Run `Update-Database` in the Package Manager Console to apply migrations
+3a) Alternatively if `Update-Database` fails, try to run `dotnet ef database update` in the terminal
+4) Run the project (Press F5)
 
 ## Logging in and the plot
 You have an account in the HR System. As Claire Redfield, the new HR assistant, you can log in using your credentials:

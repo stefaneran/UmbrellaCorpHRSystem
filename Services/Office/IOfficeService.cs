@@ -38,5 +38,7 @@ namespace UmbrellaCorpHRSystem.Services.Office
         /// </summary>
         /// <returns></returns>
         Task HealOffice();
+
+        Task<bool> InitiateSelfDestruct(ClaimsPrincipal principal, ElevateAccessDto selfDestructDto);
     }
 }

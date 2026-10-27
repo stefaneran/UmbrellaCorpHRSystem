@@ -11,14 +11,13 @@ namespace UmbrellaCorpHRSystem.Services.Director
     public class DirectorService : IDirectorService
     {
         private readonly UmbrellaHRSystemDbContext _dbContext;
-        private readonly UserManager<HRSystemUser> _userManager;
+        private string automatedEmail = "automated@umbrellacorp.com";
         private string albertWeskerEmail = "albertwesker@umbrellacorp.com";
         private string claireRedfieldEmail = "claireredfield@umbrellacorp.com";
 
         public DirectorService(UmbrellaHRSystemDbContext dbContext, UserManager<HRSystemUser> userManager)
         {
             _dbContext = dbContext;
-            _userManager = userManager;
         }
 
         public async Task InitiatePizzaPartyProtocol()
@@ -57,6 +56,42 @@ namespace UmbrellaCorpHRSystem.Services.Director
                         claire the pizza party was a terrible idea, i am getting alerts that the t virus broke containement and several employes are affected, I need you to tkae control of the office as admin quickly and intervene, go to the elevate access page and type the passowrd: ARKLAYPROTOCOL immediatelly!!!
 
                         this will grant you access to take the necessary measures
+                        """,
+                        SentDate = DateTime.UtcNow
+                    }
+                }
+            };
+            _dbContext.EmailThreads.Add(newEmailThread);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task InitiateSelfDestruct()
+        {
+            await _dbContext.Employees
+                .ExecuteUpdateAsync(g => g
+                    .SetProperty(p => p.LifeStatus, LifeStatus.Deceased)
+                    .SetProperty(p => p.HeartRate, 0)
+                    .SetProperty(p => p.EmploymentStatus, EmploymentStatus.Terminated));
+
+            EmailThread newEmailThread = new EmailThread()
+            {
+                SenderEmail = automatedEmail,
+                RecipientEmail = claireRedfieldEmail,
+                EmailMessages =
+                {
+                    new EmailMessage()
+                    {
+                        SenderEmail = automatedEmail,
+                        RecipientEmail = claireRedfieldEmail,
+                        Subject = "FACILITY PURGED",
+                        Body = """
+                        Dear Employee,
+
+                        This is an automated message to notify employees that the facility has been purged. 
+                        If any items have been left in the fridge during the self destruct protocol, consider them forfeit. 
+
+                        Have a wonderful day,
+                        Umbrella Automated Email System
                         """,
                         SentDate = DateTime.UtcNow
                     }

@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "!!! Warning !!!";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow border-umbrella">
+            <div class="card-header text-bg-umbrella-dark fw-bold text-uppercase small">Umbrella Corporation &middot; Facility Control</div>
+            <div class="card-body">
+                <h1 class="umbrella-title h5 text-uppercase fw-bold mb-3">Facillity Self Destruct Protocol</h1>
+                <div class="alert alert-warning py-2 mb-3" role="alert">
+                    <h2 class="h6 fw-bold text-uppercase mb-1">Warning</h2>
+                    <p class="mb-0">This is a warning - you are about to initiate the self-destruct protocol. Please ensure that executive personnel has vacated the premises before proceeding.</p>
+                </div>
+                <div class="d-flex justify-content-end gap-2">
+                    <a asp-controller="Office" asp-action="Index" class="btn btn-sm btn-outline-secondary">Abort</a>
+                    <a class="btn btn-umbrella fw-bold text-uppercase" asp-controller="Office" asp-action="SelfDestructConfirmation">Proceed</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

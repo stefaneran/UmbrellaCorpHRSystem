@@ -229,11 +229,9 @@
             }
             @if (User.IsInRole(Role.Admin) && Model.SecurityStatus == SecurityStatus.CodeRed)
             {
-                <form asp-controller="Office" asp-action="InitiateSelfDestructProtocol">
-                    <button type="submit" class="btn btn-umbrella fw-bold text-uppercase">
-                        !!! Initiate Self Destruct Protocol !!!
-                    </button>
-                </form>
+                <a class="btn btn-umbrella fw-bold text-uppercase" asp-controller="Office" asp-action="SelfDestructWarning">
+                    !!! Initiate Self Destruct Protocol !!!
+                </a>
                 
             }
         </div>

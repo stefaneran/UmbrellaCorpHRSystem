@@ -95,8 +95,13 @@ namespace UmbrellaCorpHRSystem.Data.Seed
                 SenderEmail = UmbrellaAutomatedSystemEmail,
                 Subject = "Welcome to Umbrella Corp HR System",
                 Body = """
+                    Dear Employee,
+
                     Your access to the office has been granted. Please use your employee ID to enter the building.
                     Do Not Reply to this email. This is an automated message from the Umbrella Corp HR System.
+
+                    Have a wonderful day,
+                    Umbrella Automated Email System
                     """,
                 SentDate = new DateTime(2025, 6, 5, 23, 59, 59),
             },

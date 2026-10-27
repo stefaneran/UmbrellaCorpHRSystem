@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "!!! CRITICAL !!!";
+}
+@model ElevateAccessDto
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow border-umbrella">
+            <div class="card-header text-bg-umbrella fw-bold text-uppercase small">Umbrella Corporation &middot; Final Authorization</div>
+            <div class="card-body">
+                <h1 class="umbrella-title h5 text-uppercase fw-bold mb-3">Facillity Self Destruct Protocol - Confirmation</h1>
+                <div class="alert alert-danger py-2 mb-3" role="alert">
+                    <p class="mb-0">Final Confirmation to initiate Self Destruct Protocol. Please type in the elevation password to finalize protocol.</p>
+                </div>
+
+                <form class="mb-0" asp-controller="Office" asp-action="InitiateSelfDestruct">
+                    <label class="form-label fw-semibold small text-uppercase" for="Password">Authorization Code</label>
+                    <div class="input-group">
+                        <input class="form-control" type="password" autocomplete="off" placeholder="Password" asp-for="Password" />
+                        <button class="btn btn-umbrella fw-bold text-uppercase" type="submit">!!! Confirm Self Destruct !!!</button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </form>
+            </div>
+        </div>
+
+        <div class="text-end mt-3">
+            <a asp-controller="Office" asp-action="Index" class="btn btn-sm btn-outline-secondary">Abort</a>
+        </div>
+    </div>
+</div>

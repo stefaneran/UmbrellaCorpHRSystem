@@ -231,7 +231,7 @@ namespace UmbrellaCorpHRSystem.Data.Migrations
                         new
                         {
                             Id = 4,
-                            Body = "Your access to the office has been granted. Please use your employee ID to enter the building.\r\nDo Not Reply to this email. This is an automated message from the Umbrella Corp HR System.",
+                            Body = "Dear Employee,\r\n\r\nYour access to the office has been granted. Please use your employee ID to enter the building.\r\nDo Not Reply to this email. This is an automated message from the Umbrella Corp HR System.\r\n\r\nHave a wonderful day,\r\nUmbrella Automated Email System",
                             EmailThreadId = 3,
                             RecipientEmail = "claireredfield@umbrellacorp.com",
                             SenderEmail = "automated@umbrellacorp.com",

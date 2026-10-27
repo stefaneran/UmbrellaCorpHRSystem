@@ -65,13 +65,6 @@ namespace UmbrellaCorpHRSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(Roles = Role.Admin)]
-        [HttpPost]
-        public async Task<IActionResult> InitiateSelfDestructProtocol()
-        {
-            return RedirectToAction(nameof(Index));
-        }
-
         /// <summary>
         /// Resets the health status of all employees in the office so we can see CodeGreen status again - Debug purposes
         /// </summary>
@@ -82,5 +75,40 @@ namespace UmbrellaCorpHRSystem.Controllers
             await _officeService.HealOffice();
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize(Roles = Role.Admin)]
+        [HttpGet]
+        public IActionResult SelfDestructWarning()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = Role.Admin)]
+        [HttpGet]
+        public IActionResult SelfDestructConfirmation()
+        {
+            ElevateAccessDto selfDestructDto = new ElevateAccessDto();
+            return View(selfDestructDto);
+        }
+
+        [Authorize(Roles = Role.Admin)]
+        [HttpPost]
+        public async Task<IActionResult> InitiateSelfDestruct(ElevateAccessDto selfDestructDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(SelfDestructConfirmation), selfDestructDto);
+            }
+
+            bool success = await _officeService.InitiateSelfDestruct(User, selfDestructDto);
+            if (!success)
+            {
+                ModelState.AddModelError(nameof(ElevateAccessDto.Password), "PROTOCOL INITIATION FAILED: UNAUTHORIZED CODE");
+                return View(nameof(SelfDestructConfirmation), selfDestructDto);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        
     }
 }

@@ -150,5 +150,24 @@ namespace UmbrellaCorpHRSystem.Services.Office
                     .SetProperty(p => p.LifeStatus, LifeStatus.Alive)
                     .SetProperty(p => p.HeartRate, rand.Next(60, 80)));
         }
+
+        public async Task<bool> InitiateSelfDestruct(ClaimsPrincipal principal, ElevateAccessDto selfDestructDto)
+        {
+            var password = _configuration["Admin:ElevationPassword"] ?? throw new InvalidOperationException("Password not found in config");
+            if (password != selfDestructDto.Password)
+            {
+                return false;
+            }
+
+            var user = await _userManager.GetUserAsync(principal);
+            if (user == null)
+            {
+                return false;
+            }
+
+            await _directorService.InitiateSelfDestruct();
+
+            return true;
+        }
     }
 }

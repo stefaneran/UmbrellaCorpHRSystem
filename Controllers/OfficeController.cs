@@ -39,6 +39,7 @@ namespace UmbrellaCorpHRSystem.Controllers
             }
 
             bool success = await _officeService.ElevateAccessAsync(User, elevateAccessDto);
+
             if (!success)
             {
                 ModelState.AddModelError(nameof(ElevateAccessDto.Password), "ACCESS DENIED: UNAUTHORIZED CODE");
@@ -101,6 +102,7 @@ namespace UmbrellaCorpHRSystem.Controllers
             }
 
             bool success = await _officeService.InitiateSelfDestruct(User, selfDestructDto);
+
             if (!success)
             {
                 ModelState.AddModelError(nameof(ElevateAccessDto.Password), "PROTOCOL INITIATION FAILED: UNAUTHORIZED CODE");

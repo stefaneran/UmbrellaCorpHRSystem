@@ -35,6 +35,9 @@ namespace UmbrellaCorpHRSystem.Services.Office
 
         private record EmployeeHealthStatus(Department Department, InfectionStatus InfectionStatus, LifeStatus LifeStatus);
 
+        /// <summary>
+        /// Check if a department has an infected employee within it
+        /// </summary>
         private bool IsDepartmentCompromised(ICollection<EmployeeHealthStatus> employees, Department department)
         {
             foreach (EmployeeHealthStatus employee in employees)
@@ -48,6 +51,9 @@ namespace UmbrellaCorpHRSystem.Services.Office
             return false;
         }
 
+        /// <summary>
+        /// Get security status code based on the number of infected in the facility
+        /// </summary>
         private SecurityStatus GetSecurityStatus(ICollection<EmployeeHealthStatus> employees)
         {
             int numOfEmployees = employees.Count;
@@ -106,16 +112,19 @@ namespace UmbrellaCorpHRSystem.Services.Office
             {
                 return false;
             }
+
             var user = await _userManager.GetUserAsync(principal);
             if (user == null)
             {
                 return false;
             }
+
             IdentityResult identityResult = await _userManager.AddToRoleAsync(user, Role.Admin);
             if (!identityResult.Succeeded)
             {
                 return false;
             }
+
             await _signInManager.RefreshSignInAsync(user);
             return true;
         }
@@ -127,11 +136,14 @@ namespace UmbrellaCorpHRSystem.Services.Office
             {
                 return false;
             }
+
             IdentityResult identityResult = await _userManager.RemoveFromRoleAsync(user, Role.Admin);
+
             if (!identityResult.Succeeded)
             {
                 return false;
             }
+
             await _signInManager.RefreshSignInAsync(user);
             return true;
         }

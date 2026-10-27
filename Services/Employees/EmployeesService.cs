@@ -121,11 +121,13 @@ namespace UmbrellaCorpHRSystem.Services.Employees
             {
                 return false;
             }
+
             var employee = await _dbContext.FindAsync<Employee>(editEmployeeDto.Id);
             if (employee == null)
             {
                 return false;
             }
+
             employee.FirstName = editEmployeeDto.FirstName;
             employee.LastName = editEmployeeDto.LastName;
             employee.Salary = editEmployeeDto.Salary;

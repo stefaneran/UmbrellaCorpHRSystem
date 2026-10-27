@@ -25,6 +25,9 @@ namespace UmbrellaCorpHRSystem.Services.Email
 
         private record EmailParticipants(string Sender, string Recipient);
 
+        /// <summary>
+        /// Check if logged-in user is either a sender or a recipient of the email thread
+        /// </summary>
         private async Task<bool> CheckIfUserEligibleForOperation(string? userEmail, int? threadId)
         {
             EmailParticipants? emailParticipants = await _dbContext.EmailThreads
@@ -181,6 +184,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
             {
                 return false;
             }
+
             EmailParticipants? emailParticipants = await _dbContext.EmailThreads
                 .Where(g => g.Id == replyEmailDto.Id)
                 .Select(g => new EmailParticipants(g.SenderEmail, g.RecipientEmail))
@@ -190,11 +194,13 @@ namespace UmbrellaCorpHRSystem.Services.Email
             {
                 return false;
             }
+
             string senderEmail = user.Email ?? throw new InvalidOperationException();
             if ((senderEmail != emailParticipants?.Sender) && (senderEmail != emailParticipants?.Recipient))
             {
                 return false;
             }
+
             string recipientEmail = senderEmail == emailParticipants.Sender ? emailParticipants.Recipient : emailParticipants.Sender;
 
             EmailMessage newEmailMessage = new EmailMessage()

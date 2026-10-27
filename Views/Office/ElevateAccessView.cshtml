@@ -17,8 +17,17 @@
                 <form class="mb-0" asp-controller="Office" asp-action="ElevateAccess">
                     <label class="form-label fw-semibold small text-uppercase" for="Password">Authorization Code</label>
                     <div class="input-group">
-                        <input class="form-control" type="password" autocomplete="off" asp-for="Password" placeholder="Password" />
-                        <button class="btn btn-umbrella fw-bold text-uppercase" type="submit">Elevate</button>
+                        <input 
+                            asp-for="Password" 
+                            type="password"
+                            disabled="@User.IsInRole(Role.Admin)"
+                            class="form-control" 
+                            autocomplete="off" 
+                            placeholder="Password" />
+                        <button 
+                            class="btn btn-umbrella fw-bold text-uppercase" 
+                            type="submit" 
+                            disabled="@User.IsInRole(Role.Admin)">Elevate</button>
                     </div>
                     <span asp-validation-for="Password" class="text-danger small"></span>
                 </form>

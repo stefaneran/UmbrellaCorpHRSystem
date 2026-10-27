@@ -17,7 +17,7 @@ namespace UmbrellaCorpHRSystem.Services.Employees
             _dbContext = dbContext;
         }
 
-        public async Task<EmployeeTableViewModel> GetEmployeesAsync(int page)
+        public async Task<EmployeeTableViewModel> GetEmployeesAsync(int page = 1)
         {
             int pageSize = 10;
             int totalEmployeeCount = _dbContext.Employees.Count();

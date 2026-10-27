@@ -40,7 +40,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
             var user = await _userManager.GetUserAsync(principal);
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user));
+                return 0;
             }
 
             int numOfUnreadEmailThreads = await _dbContext.EmailThreads
@@ -57,7 +57,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
             var user = await _userManager.GetUserAsync(principal);
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user));
+                return null;
             }
 
             ICollection<EmailThreadListItemViewModel> emailThreadList = await _dbContext.EmailThreads
@@ -92,7 +92,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
             var user = await _userManager.GetUserAsync(principal);
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user));
+                return null;
             }
 
             if (!await CheckIfUserEligibleForOperation(user.Email, id))
@@ -142,7 +142,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
             var user = await _userManager.GetUserAsync(principal);
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user));
+                return -1;
             }
 
             var recipient = await _dbContext.Employees
@@ -179,7 +179,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
             var user = await _userManager.GetUserAsync(principal);
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user));
+                return false;
             }
             EmailParticipants? emailParticipants = await _dbContext.EmailThreads
                 .Where(g => g.Id == replyEmailDto.Id)
@@ -217,7 +217,7 @@ namespace UmbrellaCorpHRSystem.Services.Email
             var user = await _userManager.GetUserAsync(principal);
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user));
+                return false;
             }
 
             if (!await CheckIfUserEligibleForOperation(user.Email, id))
